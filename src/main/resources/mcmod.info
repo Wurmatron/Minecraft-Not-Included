@@ -1,0 +1,16 @@
+[
+{
+  "modid": "minecraftnotincluded",
+  "name": "Minecraft Not Included",
+  "description": "TODO Placerholder",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Wurmatron"],
+  "credits": "Oxygen Not Included ",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
