@@ -34,7 +34,6 @@ public class Registry {
     return block;
   }
 
-
   @SubscribeEvent
   public void registerBlocks(RegistryEvent.Register<Block> e) {
     e.getRegistry().registerAll(blocks.toArray(new Block[0]));
