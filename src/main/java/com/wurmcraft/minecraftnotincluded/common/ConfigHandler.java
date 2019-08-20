@@ -4,6 +4,4 @@ import com.wurmcraft.minecraftnotincluded.common.references.Global;
 import net.minecraftforge.common.config.Config;
 
 @Config(modid = Global.MODID)
-public class ConfigHandler {
-
-}
+public class ConfigHandler {}
