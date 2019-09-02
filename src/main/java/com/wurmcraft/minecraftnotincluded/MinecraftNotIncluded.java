@@ -2,8 +2,10 @@ package com.wurmcraft.minecraftnotincluded;
 
 import com.wurmcraft.minecraftnotincluded.common.CommonProxy;
 import com.wurmcraft.minecraftnotincluded.common.block.MinecraftNotIncludedBlocks;
+import com.wurmcraft.minecraftnotincluded.common.gen.MNIWorldType;
 import com.wurmcraft.minecraftnotincluded.common.item.MinecraftNotIncludedItems;
 import com.wurmcraft.minecraftnotincluded.common.references.Global;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -13,7 +15,12 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
-@Mod(modid = Global.MODID, name = Global.NAME, version = Global.VERSION, dependencies = Global.DEPENDENCIES)
+@Mod(
+  modid = Global.MODID,
+  name = Global.NAME,
+  version = Global.VERSION,
+  dependencies = Global.DEPENDENCIES
+)
 public class MinecraftNotIncluded {
 
   @SidedProxy(clientSide = Global.CLIENT_PROXY, serverSide = Global.COMMON_PROXY)
@@ -27,6 +34,8 @@ public class MinecraftNotIncluded {
     proxy.preInit(e);
     MinecraftNotIncludedItems.register();
     MinecraftNotIncludedBlocks.register();
+    MinecraftForge.EVENT_BUS.register(this);
+    new MNIWorldType();
   }
 
   @EventHandler
@@ -43,4 +52,14 @@ public class MinecraftNotIncluded {
   public void serverStarting(FMLServerStartingEvent e) {
     proxy.serverStarting(e);
   }
+
+  //  @SubscribeEvent
+  //  public void onCubeGen(PopulateCubeEvent.Pre e) {
+  //    CubePrimer cube = (e.getGenerator()).generateCube(e.getCubeX(), e.getCubeY(), e.getCubeZ());
+  //    for (int x = 0; x < Cube.SIZE; x++)
+  //      for (int y = 0; y < Cube.SIZE; y++)
+  //        for (int z = 0; z < Cube.SIZE; z++) {
+  //          cube.setBlockState(x, y, z, Blocks.OBSIDIAN.getDefaultState());
+  //        }
+  //  }
 }
