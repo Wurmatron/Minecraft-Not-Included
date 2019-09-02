@@ -16,7 +16,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 version = "${mod_version}"
 group = "com.wurmcraft.minecraftnotincluded" 
-archivesBaseName = "Minecraf-Not-Included"
+archivesBaseName = "Minecraft-Not-Included"
 
 sourceCompatibility = targetCompatibility = '1.8' 
 compileJava {
