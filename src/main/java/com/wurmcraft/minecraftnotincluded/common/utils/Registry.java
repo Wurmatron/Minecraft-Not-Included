@@ -20,13 +20,13 @@ public class Registry {
 
   public static void registerItem(Item item, String registryName) {
     item.setRegistryName(registryName);
-    item.setUnlocalizedName(registryName);
+    item.setTranslationKey(registryName);
     items.add(item);
   }
 
   public static Block registerBlock(Block block, String registryName) {
     block.setRegistryName(registryName);
-    block.setUnlocalizedName(registryName);
+    block.setTranslationKey(registryName);
     ItemBlock itemBlock = new ItemBlock(block);
     itemBlock.setRegistryName(registryName);
     blocks.add(block);

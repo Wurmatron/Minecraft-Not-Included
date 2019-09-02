@@ -5,6 +5,7 @@ import com.wurmcraft.minecraftnotincluded.common.block.MinecraftNotIncludedBlock
 import com.wurmcraft.minecraftnotincluded.common.gen.MNIWorldType;
 import com.wurmcraft.minecraftnotincluded.common.item.MinecraftNotIncludedItems;
 import com.wurmcraft.minecraftnotincluded.common.references.Global;
+import com.wurmcraft.minecraftnotincluded.common.utils.Registry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -32,9 +33,9 @@ public class MinecraftNotIncluded {
   @EventHandler
   public void preInit(FMLPreInitializationEvent e) {
     proxy.preInit(e);
+    MinecraftForge.EVENT_BUS.register(new Registry());
     MinecraftNotIncludedItems.register();
     MinecraftNotIncludedBlocks.register();
-    MinecraftForge.EVENT_BUS.register(this);
     new MNIWorldType();
   }
 
