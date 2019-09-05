@@ -1,7 +1,9 @@
 package com.wurmcraft.minecraftnotincluded;
 
 import com.wurmcraft.minecraftnotincluded.common.CommonProxy;
+import com.wurmcraft.minecraftnotincluded.common.ConfigHandler;
 import com.wurmcraft.minecraftnotincluded.common.block.MinecraftNotIncludedBlocks;
+import com.wurmcraft.minecraftnotincluded.common.event.SurfaceRadiationEvent;
 import com.wurmcraft.minecraftnotincluded.common.gen.MNIWorldType;
 import com.wurmcraft.minecraftnotincluded.common.item.MinecraftNotIncludedItems;
 import com.wurmcraft.minecraftnotincluded.common.references.Global;
@@ -42,6 +44,10 @@ public class MinecraftNotIncluded {
   @EventHandler
   public void init(FMLInitializationEvent e) {
     proxy.init(e);
+    // TODO Add Protection Items
+    if (ConfigHandler.radiationDamage && ConfigHandler.radiationDamagePerSecond > 0) {
+      MinecraftForge.EVENT_BUS.register(new SurfaceRadiationEvent());
+    }
   }
 
   @EventHandler
