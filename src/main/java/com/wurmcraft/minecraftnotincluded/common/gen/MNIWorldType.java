@@ -91,7 +91,7 @@ public class MNIWorldType extends WorldType implements ICubicWorldType {
                   world.getWorldInfo().isMapFeaturesEnabled(),
                   world.getWorldInfo().getGeneratorOptions());
         }
-        Chunk chunk = vanillaGenerator.generateChunk(Math.abs(cubeX), Math.abs(cubeZ));
+        Chunk chunk = vanillaGenerator.generateChunk(cubeX, cubeZ);
         if (cubeY < 0) {
           for (int x = 0; x < SIZE; x++) {
             for (int y = 0; y < SIZE; y++) {
@@ -115,49 +115,8 @@ public class MNIWorldType extends WorldType implements ICubicWorldType {
       @Override
       public void generateColumn(Chunk chunk) {}
 
-      // Modified from https://github.com/OpenCubicChunks/CubicChunks/blob/MC_1.12/src/main/java/io/github/opencubicchunks/cubicchunks/core/worldgen/generator/vanilla/VanillaCompatibilityGenerator.java#L275
-      // All Credit to Barteks2x
       @Override
       public void populate(ICube cube) {
-        try {
-          WorldgenHangWatchdog.startWorldGen();
-          MinecraftForge.EVENT_BUS.post(
-              new Pre(vanillaGenerator, world, world.rand, cube.getX(), cube.getZ(), false));
-          Random rand = getCubeSpecificRandom(cube.getX(), cube.getY(), cube.getZ());
-          CubeGeneratorsRegistry.populateVanillaCubic(world, rand, cube);
-          if (cube.getY() < 0) {
-            //            || cube.getY() >= worldHeightCubes) {
-            return;
-          }
-          //          if (cube.getY() >= 0 && cube.getY() < worldHeightCubes) {
-          //            for (int y = worldHeightCubes - 1; y >= 0; y--) {
-          //              ((ICubicWorldInternal) world).getCubeFromCubeCoords(cube.getX(), y, cube.getZ()).setPopulated(true);
-          //            }
-
-          try {
-            vanillaGenerator.populate(Math.abs(cube.getX()), Math.abs(cube.getZ()));
-          } catch (IllegalArgumentException ex) {
-            StackTraceElement[] stack = ex.getStackTrace();
-            if (stack == null
-                || stack.length < 1
-                || !stack[0].getClassName().equals(Random.class.getName())
-                || !stack[0].getMethodName().equals("nextInt")) {
-              throw ex;
-            } else {
-              ex.printStackTrace();
-            }
-          }
-          applyModGenerators(
-              Math.abs(cube.getX()),
-              Math.abs(cube.getZ()),
-              world,
-              vanillaGenerator,
-              world.getChunkProvider());
-          MinecraftForge.EVENT_BUS.post(
-              new Post(vanillaGenerator, world, world.rand, cube.getX(), cube.getZ(), false));
-        } finally {
-          WorldgenHangWatchdog.endWorldGen();
-        }
       }
 
       // Copied from https://github.com/OpenCubicChunks/CubicChunks/blob/MC_1.12/src/main/java/io/github/opencubicchunks/cubicchunks/core/worldgen/generator/vanilla/VanillaCompatibilityGenerator.java#L187
