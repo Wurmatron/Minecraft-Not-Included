@@ -2,41 +2,32 @@ package com.wurmcraft.minecraftnotincluded.common.gen;
 
 import static io.github.opencubicchunks.cubicchunks.api.world.ICube.SIZE;
 
+import com.wurmcraft.minecraftnotincluded.common.biome.BiomeRegistry;
 import io.github.opencubicchunks.cubicchunks.api.util.Box;
 import io.github.opencubicchunks.cubicchunks.api.util.IntRange;
 import io.github.opencubicchunks.cubicchunks.api.world.ICube;
 import io.github.opencubicchunks.cubicchunks.api.world.ICubicWorldType;
-import io.github.opencubicchunks.cubicchunks.api.worldgen.CubeGeneratorsRegistry;
 import io.github.opencubicchunks.cubicchunks.api.worldgen.CubePrimer;
 import io.github.opencubicchunks.cubicchunks.api.worldgen.ICubeGenerator;
 import io.github.opencubicchunks.cubicchunks.core.asm.mixin.core.common.IGameRegistry;
 import io.github.opencubicchunks.cubicchunks.core.util.CompatHandler;
-import io.github.opencubicchunks.cubicchunks.core.worldgen.WorldgenHangWatchdog;
 import io.github.opencubicchunks.cubicchunks.cubicgen.customcubic.CustomGeneratorSettings;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraft.world.WorldSettings;
 import net.minecraft.world.WorldType;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraft.world.biome.BiomeProvider;
 import net.minecraft.world.biome.BiomeProviderSingle;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.ChunkGeneratorOverworld;
-import net.minecraft.world.gen.ChunkGeneratorSettings;
 import net.minecraft.world.gen.IChunkGenerator;
-import net.minecraft.world.storage.WorldInfo;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.terraingen.PopulateChunkEvent.Post;
-import net.minecraftforge.event.terraingen.PopulateChunkEvent.Pre;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
 // Modified version of https://github.com/OpenCubicChunks/CubicChunks/blob/MC_1.12/src/main/java/io/github/opencubicchunks/cubicchunks/core/worldgen/generator/vanilla/VanillaCompatibilityGenerator.java
@@ -64,17 +55,7 @@ public class MNIWorldType extends WorldType implements ICubicWorldType {
   }
 
   public static BiomeProvider makeBiomeProvider(World world, CustomGeneratorSettings conf) {
-    WorldSettings fakeSettings = new WorldSettings(world.getWorldInfo());
-    ChunkGeneratorSettings.Factory fakeGenOpts = new ChunkGeneratorSettings.Factory();
-    fakeGenOpts.biomeSize = conf.biomeSize;
-    fakeGenOpts.riverSize = conf.riverSize;
-    fakeSettings.setGeneratorOptions(fakeGenOpts.toString());
-    WorldInfo fakeInfo = new WorldInfo(fakeSettings, world.getWorldInfo().getWorldName());
-    fakeInfo.setTerrainType(WorldType.AMPLIFIED);
-    Biome biome = Biome.getBiomeForId(conf.biome);
-    return conf.biome < 0
-        ? new BiomeProvider(fakeInfo)
-        : new BiomeProviderSingle(biome == null ? Biomes.OCEAN : biome);
+    return new BiomeProviderSingle(BiomeRegistry.wasteland);
   }
 
   @Override
@@ -109,6 +90,7 @@ public class MNIWorldType extends WorldType implements ICubicWorldType {
             }
           }
         }
+
         return primer;
       }
 
@@ -116,8 +98,7 @@ public class MNIWorldType extends WorldType implements ICubicWorldType {
       public void generateColumn(Chunk chunk) {}
 
       @Override
-      public void populate(ICube cube) {
-      }
+      public void populate(ICube cube) {}
 
       // Copied from https://github.com/OpenCubicChunks/CubicChunks/blob/MC_1.12/src/main/java/io/github/opencubicchunks/cubicchunks/core/worldgen/generator/vanilla/VanillaCompatibilityGenerator.java#L187
       // All Credit to Barteks2x

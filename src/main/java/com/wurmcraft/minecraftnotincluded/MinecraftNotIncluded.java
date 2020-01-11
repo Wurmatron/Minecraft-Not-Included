@@ -2,6 +2,7 @@ package com.wurmcraft.minecraftnotincluded;
 
 import com.wurmcraft.minecraftnotincluded.common.CommonProxy;
 import com.wurmcraft.minecraftnotincluded.common.ConfigHandler;
+import com.wurmcraft.minecraftnotincluded.common.biome.BiomeRegistry;
 import com.wurmcraft.minecraftnotincluded.common.block.MinecraftNotIncludedBlocks;
 import com.wurmcraft.minecraftnotincluded.common.event.SurfaceRadiationEvent;
 import com.wurmcraft.minecraftnotincluded.common.gen.MNIWorldType;
@@ -36,6 +37,7 @@ public class MinecraftNotIncluded {
   public void preInit(FMLPreInitializationEvent e) {
     proxy.preInit(e);
     MinecraftForge.EVENT_BUS.register(new Registry());
+    MinecraftForge.EVENT_BUS.register(new BiomeRegistry());
     MinecraftNotIncludedItems.register();
     MinecraftNotIncludedBlocks.register();
     new MNIWorldType();
@@ -59,14 +61,4 @@ public class MinecraftNotIncluded {
   public void serverStarting(FMLServerStartingEvent e) {
     proxy.serverStarting(e);
   }
-
-  //  @SubscribeEvent
-  //  public void onCubeGen(PopulateCubeEvent.Pre e) {
-  //    CubePrimer cube = (e.getGenerator()).generateCube(e.getCubeX(), e.getCubeY(), e.getCubeZ());
-  //    for (int x = 0; x < Cube.SIZE; x++)
-  //      for (int y = 0; y < Cube.SIZE; y++)
-  //        for (int z = 0; z < Cube.SIZE; z++) {
-  //          cube.setBlockState(x, y, z, Blocks.OBSIDIAN.getDefaultState());
-  //        }
-  //  }
 }
