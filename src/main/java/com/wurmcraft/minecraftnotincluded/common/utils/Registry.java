@@ -42,5 +42,6 @@ public class Registry {
   @SubscribeEvent
   public void registerItems(RegistryEvent.Register<Item> e) {
     e.getRegistry().registerAll(items.toArray(new Item[0]));
+    for (Block block : blockItems.keySet()) e.getRegistry().register(blockItems.get(block));
   }
 }
