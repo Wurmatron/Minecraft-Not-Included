@@ -8,12 +8,14 @@ import net.minecraft.block.material.Material;
 public class MinecraftNotIncludedBlocks {
 
   public static Block geyserWater;
+  public static Block geyserLava;
 
   public static Block blockDust;
   public static Block blockCompressedDust;
 
   public static void register() {
     Registry.registerBlock(geyserWater = new GeyserBlock(Type.WATER), "geyserWater");
+    Registry.registerBlock(geyserLava = new GeyserBlock(Type.LAVA), "geyserLava");
     Registry.registerBlock(blockDust = new BasicBlock(Material.SAND), "dust");
     Registry.registerBlock(blockCompressedDust = new BasicBlock(Material.SAND), "compressedDust");
   }

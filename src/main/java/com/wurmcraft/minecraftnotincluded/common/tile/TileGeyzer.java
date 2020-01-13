@@ -54,6 +54,10 @@ public class TileGeyzer extends TileEntity implements ITickable {
             if (currentPos.getY() < MAX_HEIGHT) {
               currentPos = new BlockPos(0, currentPos.getY() + 1, 0);
               currentRadius = 0;
+            } else {
+              nextSleep = 0;
+              sleepLeft = SLEEP_TIME;
+              currentPos = getPos().add(0, 1, 0);
             }
           }
         }
