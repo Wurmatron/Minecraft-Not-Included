@@ -1,6 +1,6 @@
-package com.wurmcraft.minecraftnotincluded.common.gen;
+package com.wurmcraft.minecraftnotincluded.common.world;
 
-import com.wurmcraft.minecraftnotincluded.common.gen.overworld.MNIOverworldGenerator;
+import com.wurmcraft.minecraftnotincluded.common.world.overworld.MNIOverworldGenerator;
 import io.github.opencubicchunks.cubicchunks.api.util.IntRange;
 import io.github.opencubicchunks.cubicchunks.api.world.ICubicWorldType;
 import io.github.opencubicchunks.cubicchunks.api.worldgen.ICubeGenerator;

@@ -1,0 +1,9 @@
+{
+    "variants":
+    {
+        "variant=brown":  { "model": "minecraftnotincluded:glowingmushroom_brown" },
+        "variant=red":   { "model": "minecraftnotincluded:glowingmushroom_red" },
+        "variant=gold":   { "model": "minecraftnotincluded:glowingmushroom_gold" },
+        "variant=blue": { "model": "minecraftnotincluded:glowingmushroom_blue" }
+    }
+}

@@ -1,6 +1,7 @@
 package com.wurmcraft.minecraftnotincluded.client;
 
 import com.wurmcraft.minecraftnotincluded.common.CommonProxy;
+import com.wurmcraft.minecraftnotincluded.common.block.BlockGlowingMushroom;
 import com.wurmcraft.minecraftnotincluded.common.block.MinecraftNotIncludedBlocks;
 import com.wurmcraft.minecraftnotincluded.common.references.Global;
 import net.minecraft.client.Minecraft;
@@ -10,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.util.IThreadListener;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -22,6 +24,7 @@ public class ClientProxy extends CommonProxy {
   @Override
   public void preInit(FMLPreInitializationEvent e) {
     super.preInit(e);
+    MinecraftForge.EVENT_BUS.register(this);
   }
 
   @Override
@@ -63,6 +66,13 @@ public class ClientProxy extends CommonProxy {
 
   @SubscribeEvent
   public void loadModel(ModelRegistryEvent e) {
-    createModel(Item.getItemFromBlock(MinecraftNotIncludedBlocks.geyserWater), 0, "geyserWater");
+    //    createModel(Item.getItemFromBlock(MinecraftNotIncludedBlocks.geyserWater), 0, "geyserWater");
+    //    createModel(Item.getItemFromBlock(MinecraftNotIncludedBlocks.geyserLava), 0, "geyserLava");
+    for (BlockGlowingMushroom.EnumType type : BlockGlowingMushroom.EnumType.values()) {
+      createModel(
+          Item.getItemFromBlock(MinecraftNotIncludedBlocks.glowingMushroom),
+          type.getMetadata(),
+          "glowingmushroom_" + type.getName());
+    }
   }
 }

@@ -1,4 +1,4 @@
-package com.wurmcraft.minecraftnotincluded.common.gen.overworld.cavern;
+package com.wurmcraft.minecraftnotincluded.common.world.overworld.cavern;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.util.math.BlockPos;

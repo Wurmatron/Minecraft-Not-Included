@@ -1,4 +1,4 @@
-package com.wurmcraft.minecraftnotincluded.common.gen.overworld;
+package com.wurmcraft.minecraftnotincluded.common.world.overworld;
 
 import net.minecraft.init.Biomes;
 import net.minecraft.util.math.ChunkPos;

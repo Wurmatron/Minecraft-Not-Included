@@ -1,4 +1,4 @@
-package com.wurmcraft.minecraftnotincluded.common.gen.overworld.cavern;
+package com.wurmcraft.minecraftnotincluded.common.world.overworld.cavern;
 
 import static io.github.opencubicchunks.cubicchunks.api.util.Coords.cubeToCenterBlock;
 import static io.github.opencubicchunks.cubicchunks.api.util.Coords.cubeToMinBlock;
@@ -74,11 +74,12 @@ public class CavernGenerator implements ICubicStructureGenerator {
       return;
     }
     if (!spawnSet) {
-      world.setSpawnPoint(
+      BlockPos pos =
           new BlockPos(
               cubeToCenterBlock(cubeXOrigin),
               cubeToCenterBlock(cubeYOrigin),
-              cubeToCenterBlock(cubeZOrigin)));
+              cubeToCenterBlock(cubeZOrigin));
+      world.setSpawnPoint(pos);
       spawnSet = true;
     }
     //very low probability of generating high number

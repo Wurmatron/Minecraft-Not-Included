@@ -1,8 +1,8 @@
-package com.wurmcraft.minecraftnotincluded.common.gen.overworld;
+package com.wurmcraft.minecraftnotincluded.common.world.overworld;
 
-import static com.wurmcraft.minecraftnotincluded.common.gen.overworld.cavern.TerrainGeneratorUtils.addFillerMaterial;
+import static com.wurmcraft.minecraftnotincluded.common.world.overworld.cavern.TerrainGeneratorUtils.addFillerMaterial;
 
-import com.wurmcraft.minecraftnotincluded.common.gen.overworld.cavern.CavernGenerator;
+import com.wurmcraft.minecraftnotincluded.common.world.overworld.cavern.CavernGenerator;
 import io.github.opencubicchunks.cubicchunks.api.util.CubePos;
 import io.github.opencubicchunks.cubicchunks.api.world.ICube;
 import io.github.opencubicchunks.cubicchunks.api.worldgen.CubePrimer;
