@@ -21,6 +21,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import org.apache.logging.log4j.Logger;
 
 @Mod(
   modid = Global.MODID,
@@ -36,8 +37,11 @@ public class MinecraftNotIncluded {
   @Instance(value = Global.MODID)
   public static MinecraftNotIncluded instance;
 
+  public static Logger logger;
+
   @EventHandler
   public void preInit(FMLPreInitializationEvent e) {
+    logger = e.getModLog();
     proxy.preInit(e);
     MinecraftForge.EVENT_BUS.register(new Registry());
     MinecraftForge.EVENT_BUS.register(new BiomeRegistry());
@@ -54,11 +58,13 @@ public class MinecraftNotIncluded {
     if (ConfigHandler.radiationDamage && ConfigHandler.radiationDamagePerSecond > 0) {
       MinecraftForge.EVENT_BUS.register(new SurfaceRadiationEvent());
     }
+    MinecraftForge.EVENT_BUS.register(new MinecraftNotIncluded());
   }
 
   @EventHandler
   public void postInit(FMLPostInitializationEvent e) {
     proxy.postInit(e);
+    BiomeRegistry.setup();
   }
 
   @EventHandler

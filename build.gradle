@@ -68,6 +68,8 @@ shadowJar {
     dependencies {
         exclude('dummy*')
         exclude('Cubic*')
+        exclude('Cavern*')
+        exclude('Terra*')
         include(dependency('com.github.stephenc.high-scale-lib:high-scale-lib:1.1.4'))
     }
 }

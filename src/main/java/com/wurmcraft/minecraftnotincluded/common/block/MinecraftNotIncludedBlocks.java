@@ -3,6 +3,7 @@ package com.wurmcraft.minecraftnotincluded.common.block;
 import com.wurmcraft.minecraftnotincluded.common.tile.Type;
 import com.wurmcraft.minecraftnotincluded.common.utils.Registry;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockBush;
 import net.minecraft.block.material.Material;
 
 public class MinecraftNotIncludedBlocks {

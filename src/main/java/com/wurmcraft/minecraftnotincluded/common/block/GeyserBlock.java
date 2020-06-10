@@ -2,7 +2,6 @@ package com.wurmcraft.minecraftnotincluded.common.block;
 
 import com.wurmcraft.minecraftnotincluded.common.tile.TileGeyzer;
 import com.wurmcraft.minecraftnotincluded.common.tile.Type;
-import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -24,11 +23,11 @@ public class GeyserBlock extends Block implements ITileEntityProvider {
     setHardness(-1);
     setResistance(-1);
   }
-
-  @Override
-  public int getLightValue(IBlockState state) {
-    return 12;
-  }
+  //
+  //  @Override
+  //  public int getLightValue(IBlockState state) {
+  //    return 12;
+  //  }
 
   @Override
   public void breakBlock(World world, BlockPos pos, IBlockState state) {
@@ -36,7 +35,6 @@ public class GeyserBlock extends Block implements ITileEntityProvider {
     world.removeTileEntity(pos);
   }
 
-  @Nullable
   @Override
   public TileEntity createNewTileEntity(World worldIn, int meta) {
     return new TileGeyzer(type);

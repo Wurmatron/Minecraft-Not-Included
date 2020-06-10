@@ -2,8 +2,10 @@ package com.wurmcraft.minecraftnotincluded.common.biome;
 
 import com.wurmcraft.minecraftnotincluded.common.block.MinecraftNotIncludedBlocks;
 import com.wurmcraft.minecraftnotincluded.common.references.Global;
+import java.util.*;
 import java.util.Random;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -13,10 +15,40 @@ import net.minecraft.world.gen.feature.WorldGenDeadBush;
 import net.minecraft.world.gen.feature.WorldGenLiquids;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class BiomeRegistry {
 
+  private static final int DEFAULT_BIOME_ID = 0;
+
+  public static List<Biome> biomeIDS = new ArrayList<>();
+  public static HashMap<ResourceLocation, Integer> biomeIdCache = new HashMap<>();
+  public static int BIOME_COUNT = 0;
+
   public static Biome wasteland;
+
+  public static void setup() {
+    if (biomeIDS.size() == 0) {
+      for (int index = 0; index < ForgeRegistries.BIOMES.getValues().size(); index++) {
+        Biome biome = ForgeRegistries.BIOMES.getValues().get(index);
+        biomeIDS.add(biome);
+        biomeIdCache.put(biome.getRegistryName(), index);
+      }
+      BIOME_COUNT = biomeIDS.size();
+    }
+  }
+
+  public static int getBiomeID(Biome biome) {
+    return biomeIdCache.getOrDefault(biome.getRegistryName(), DEFAULT_BIOME_ID);
+  }
+
+  public static Biome getBiome(int id) {
+    return biomeIDS.get(id) != null ? biomeIDS.get(id) : Biome.getBiome(DEFAULT_BIOME_ID);
+  }
+
+  public static final Biome getDefaultBiome() {
+    return getBiome(DEFAULT_BIOME_ID);
+  }
 
   @SubscribeEvent
   public void registerBiome(RegistryEvent.Register<Biome> e) {

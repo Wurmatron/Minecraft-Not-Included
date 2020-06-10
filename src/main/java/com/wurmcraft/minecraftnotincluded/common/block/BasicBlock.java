@@ -7,5 +7,6 @@ public class BasicBlock extends Block {
 
   public BasicBlock(Material material) {
     super(material);
+    setLightLevel(1f);
   }
 }
