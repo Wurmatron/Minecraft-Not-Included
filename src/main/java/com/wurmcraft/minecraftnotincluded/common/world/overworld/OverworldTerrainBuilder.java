@@ -2,6 +2,7 @@ package com.wurmcraft.minecraftnotincluded.common.world.overworld;
 
 import static com.wurmcraft.minecraftnotincluded.common.world.overworld.cavern.TerrainGeneratorUtils.addFillerMaterial;
 
+import com.wurmcraft.minecraftnotincluded.common.ConfigHandler.Wasteland;
 import com.wurmcraft.minecraftnotincluded.common.world.overworld.cavern.CavernGenerator;
 import io.github.opencubicchunks.cubicchunks.api.util.CubePos;
 import io.github.opencubicchunks.cubicchunks.api.world.ICube;
@@ -17,12 +18,10 @@ import net.minecraft.world.biome.Biome;
 public class OverworldTerrainBuilder {
 
   private World world;
-  private MNIBiomeSource biomeSource;
   private CavernGenerator cavernGenerator;
 
-  public OverworldTerrainBuilder(World world, MNIBiomeSource biomeSource) {
+  public OverworldTerrainBuilder(World world) {
     this.world = world;
-    this.biomeSource = biomeSource;
     cavernGenerator = new CavernGenerator();
   }
 
@@ -38,6 +37,11 @@ public class OverworldTerrainBuilder {
   }
 
   public CubePrimer createPrimer(CubePrimer primer, int cubeX, int cubeY, int cubeZ) {
+    if (Wasteland.enabled) {
+      if (cubeY > (Wasteland.startY / 16)) {
+        return fillWithBlock(new CubePrimer(), Blocks.AIR.getDefaultState());
+      }
+    }
     CubePrimer maskPrimer = new CubePrimer();
     fillWithBlock(maskPrimer, Blocks.DIRT.getDefaultState());
     cavernGenerator.generate(world, maskPrimer, new CubePos(cubeX, cubeY, cubeZ));

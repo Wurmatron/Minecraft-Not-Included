@@ -13,10 +13,10 @@ public class SurfaceRadiationEvent {
         && e.getEntityLiving() instanceof EntityPlayer
         && !e.getEntityLiving().world.isRemote) {
       EntityPlayer player = (EntityPlayer) e.getEntityLiving();
-      if (!player.capabilities.isCreativeMode) {
+      if (!player.capabilities.isCreativeMode && !player.capabilities.disableDamage) {
         if (player.world.canSeeSky(player.getPosition())) {
           // Check for radiation protection items
-          player.setHealth(player.getHealth() - ConfigHandler.radiationDamagePerSecond);
+          player.setHealth(player.getHealth() - ConfigHandler.Wasteland.radiationDamagePerSecond);
         }
       }
     }

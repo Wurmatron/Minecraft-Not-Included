@@ -2,6 +2,7 @@ package com.wurmcraft.minecraftnotincluded;
 
 import com.wurmcraft.minecraftnotincluded.common.CommonProxy;
 import com.wurmcraft.minecraftnotincluded.common.ConfigHandler;
+import com.wurmcraft.minecraftnotincluded.common.ConfigHandler.Wasteland;
 import com.wurmcraft.minecraftnotincluded.common.biome.BiomeRegistry;
 import com.wurmcraft.minecraftnotincluded.common.block.MinecraftNotIncludedBlocks;
 import com.wurmcraft.minecraftnotincluded.common.event.SurfaceRadiationEvent;
@@ -54,9 +55,13 @@ public class MinecraftNotIncluded {
   @EventHandler
   public void init(FMLInitializationEvent e) {
     proxy.init(e);
-    // TODO Add Protection Items
-    if (ConfigHandler.radiationDamage && ConfigHandler.radiationDamagePerSecond > 0) {
-      MinecraftForge.EVENT_BUS.register(new SurfaceRadiationEvent());
+    if (Wasteland.enabled) {
+      logger.info("Wasteland has been enabled");
+      // TODO Add Protection Items
+      if (ConfigHandler.Wasteland.radiationDamage
+          && ConfigHandler.Wasteland.radiationDamagePerSecond > 0) {
+        MinecraftForge.EVENT_BUS.register(new SurfaceRadiationEvent());
+      }
     }
     MinecraftForge.EVENT_BUS.register(new MinecraftNotIncluded());
   }

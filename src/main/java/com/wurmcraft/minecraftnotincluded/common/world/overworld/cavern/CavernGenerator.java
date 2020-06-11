@@ -31,7 +31,7 @@ import net.minecraft.world.gen.structure.StructureBoundingBox;
 public class CavernGenerator implements ICubicStructureGenerator {
 
   private static final int CAVE_RARITY = 45 * 7 / (2 * 2 * 2);
-  private static final int MAX_INIT_NODES = 24;
+  private static final int MAX_INIT_NODES = 48;
   private static final int LARGE_NODE_RARITY = 4;
   private static final int LARGE_NODE_MAX_BRANCHES = 6;
   private static final int BIG_CAVE_RARITY = 6;

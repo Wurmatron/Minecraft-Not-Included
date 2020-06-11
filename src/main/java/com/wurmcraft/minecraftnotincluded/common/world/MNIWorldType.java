@@ -1,9 +1,11 @@
 package com.wurmcraft.minecraftnotincluded.common.world;
 
+import com.wurmcraft.minecraftnotincluded.common.ConfigHandler.Wasteland;
 import com.wurmcraft.minecraftnotincluded.common.world.overworld.MNIOverworldGenerator;
 import io.github.opencubicchunks.cubicchunks.api.util.IntRange;
 import io.github.opencubicchunks.cubicchunks.api.world.ICubicWorldType;
 import io.github.opencubicchunks.cubicchunks.api.worldgen.ICubeGenerator;
+import io.github.opencubicchunks.cubicchunks.core.CubicChunks;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.WorldType;
@@ -36,5 +38,11 @@ public class MNIWorldType extends WorldType implements ICubicWorldType {
 
   public boolean isCustomizable() {
     return false;
+  }
+
+  @Override
+  public float getCloudHeight() {
+    if (!Wasteland.enabled) return CubicChunks.MAX_BLOCK_Y;
+    return super.getCloudHeight();
   }
 }
