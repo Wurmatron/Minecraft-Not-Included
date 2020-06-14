@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "facing=south,half=upper,variant=hibiscus": {
+      "model": "minecraftnotincluded:hibiscus_upper"
+    },
+    "facing=north,half=upper,variant=hibiscus": {
+      "model": "minecraftnotincluded:hibiscus_upper"
+    },
+    "facing=east,half=upper,variant=hibiscus": {
+      "model": "minecraftnotincluded:hibiscus_upper"
+    },
+    "facing=west,half=upper,variant=hibiscus": {
+      "model": "minecraftnotincluded:hibiscus_upper"
+    },
+    "facing=south,half=lower,variant=hibiscus": {
+      "model": "minecraftnotincluded:hibiscus_lower"
+    },
+    "facing=north,half=lower,variant=hibiscus": {
+      "model": "minecraftnotincluded:hibiscus_lower"
+    },
+    "facing=east,half=lower,variant=hibiscus": {
+      "model": "minecraftnotincluded:hibiscus_lower"
+    },
+    "facing=west,half=lower,variant=hibiscus": {
+      "model": "minecraftnotincluded:hibiscus_lower"
+    },
+    "facing=south,half=lower,variant=cone_flower": {
+      "model": "minecraftnotincluded:cone_flower_lower"
+    },
+    "facing=north,half=lower,variant=cone_flower": {
+      "model": "minecraftnotincluded:cone_flower_lower"
+    },
+    "facing=east,half=lower,variant=cone_flower": {
+      "model": "minecraftnotincluded:cone_flower_lower"
+    },
+    "facing=west,half=lower,variant=cone_flower": {
+      "model": "minecraftnotincluded:cone_flower_lower"
+    },
+    "facing=south,half=upper,variant=cone_flower": {
+      "model": "minecraftnotincluded:cone_flower_upper"
+    },
+    "facing=north,half=upper,variant=cone_flower": {
+      "model": "minecraftnotincluded:cone_flower_upper"
+    },
+    "facing=east,half=upper,variant=cone_flower": {
+      "model": "minecraftnotincluded:cone_flower_upper"
+    },
+    "facing=west,half=upper,variant=cone_flower": {
+      "model": "minecraftnotincluded:cone_flower_upper"
+    }
+  }
+}

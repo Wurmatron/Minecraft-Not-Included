@@ -1,6 +1,6 @@
-package com.wurmcraft.minecraftnotincluded.common.block;
+package com.wurmcraft.minecraftnotincluded.common.block.light;
 
-import javax.annotation.Nullable;
+import io.github.opencubicchunks.cubicchunks.cubicgen.blue.endless.jankson.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
@@ -8,7 +8,6 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.IStringSerializable;
@@ -99,12 +98,6 @@ public class BlockGlowingMushroom extends Block {
     return new BlockStateContainer(this, VARIANT);
   }
 
-  @Override
-  public ItemStack getPickBlock(
-      IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
-    return new ItemStack(Item.getItemFromBlock(this), 1, getMetaFromState(state));
-  }
-
   public IBlockState getMushroomForBiome(World world, Biome biome) {
     EnumType typeForBiome = getTypeForRainfall(biome.getRainfall());
     if (world.rand.nextInt(BIOME_VARIATION_RARITY) == 0) {
@@ -112,6 +105,12 @@ public class BlockGlowingMushroom extends Block {
     } else {
       return getStateFromMeta(typeForBiome.meta);
     }
+  }
+
+  @Override
+  public ItemStack getPickBlock(
+      IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
+    return new ItemStack(this, 1, state.getValue(VARIANT).getMetadata());
   }
 
   private static EnumType getTypeForRainfall(float rainfall) {

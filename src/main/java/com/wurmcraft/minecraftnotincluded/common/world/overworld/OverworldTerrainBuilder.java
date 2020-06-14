@@ -3,11 +3,16 @@ package com.wurmcraft.minecraftnotincluded.common.world.overworld;
 import static com.wurmcraft.minecraftnotincluded.common.world.overworld.cavern.TerrainGeneratorUtils.addFillerMaterial;
 
 import com.wurmcraft.minecraftnotincluded.common.ConfigHandler.Wasteland;
+import com.wurmcraft.minecraftnotincluded.common.block.MinecraftNotIncludedBlocks;
+import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingCrystal;
+import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingCrystal.Type;
+import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingDoublePlant.EnumPlantType;
 import com.wurmcraft.minecraftnotincluded.common.world.overworld.cavern.CavernGenerator;
 import io.github.opencubicchunks.cubicchunks.api.util.CubePos;
 import io.github.opencubicchunks.cubicchunks.api.world.ICube;
 import io.github.opencubicchunks.cubicchunks.api.worldgen.CubePrimer;
 import io.github.opencubicchunks.cubicchunks.core.world.cube.Cube;
+import io.github.opencubicchunks.cubicchunks.cubicgen.common.biome.CubicBiome;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -51,7 +56,6 @@ public class OverworldTerrainBuilder {
       for (int y = 0; y < Cube.SIZE; y++) {
         for (int z = 0; z < Cube.SIZE; z++) {
           IBlockState tunnelState = tunnel.getBlockState(x, y, z);
-          Biome biome = primer.getBiome(x / 4, y / 4, z / 4);
           if (tunnelState.getBlock() == Blocks.STONE) {
             primer.setBlockState(x, y, z, Blocks.AIR.getDefaultState());
           } else if (tunnelState.getBlock() == Blocks.GRASS) {
@@ -106,4 +110,141 @@ public class OverworldTerrainBuilder {
     }
     return primer;
   }
+
+  private boolean isGround(ICube cube, BlockPos pos) {
+    return world.getBlockState(pos.down()).getMaterial() == Material.GRASS;
+  }
+
+  private boolean isCeiling(ICube cube, BlockPos pos) {
+    return world.getBlockState(pos.add(0, 1, 0)).getMaterial() == Material.AIR
+        && world.getBlockState(pos.add(0, 2, 0)).getMaterial() == Material.AIR
+        && world.getBlockState(pos.add(0, 3, 0)).isFullCube()
+        && world.getBlockState(pos.add(0, 3, 0)).getMaterial() != Material.LEAVES;
+  }
+
+  private void addMushroom(CubicBiome biome, BlockPos pos) {
+    world.setBlockState(
+        pos,
+        MinecraftNotIncludedBlocks.glowingMushroom.getMushroomForBiome(world, biome.getBiome()),
+        3);
+  }
+
+  private void addSmallCrystal(CubicBiome biome, BlockPos pos) {
+    world.setBlockState(
+        pos,
+        MinecraftNotIncludedBlocks.glowingCrystal
+            .getDefaultState()
+            .withProperty(
+                BlockGlowingCrystal.TYPE,
+                BlockGlowingCrystal.Type.values()[world.rand.nextInt(Type.values().length - 1)]),
+        3);
+  }
+
+  public void addCeilingPlant(CubicBiome biome, BlockPos pos) {
+    world.setBlockState(pos.up().up(), MinecraftNotIncludedBlocks.largeVine.getDefaultState(), 3);
+    MinecraftNotIncludedBlocks.glowingDoublePlant.placeAt(
+        world, pos, EnumPlantType.values()[world.rand.nextInt(EnumPlantType.values().length)], 3);
+  }
+
+  public void addCeilingCrystal(CubicBiome biome, BlockPos pos) {
+    if (world.rand.nextInt(4) == 0) {
+      world.setBlockState(
+          pos.up().up(), MinecraftNotIncludedBlocks.glowingVines.getDefaultState(), 3);
+    } else {
+      world.setBlockState(
+          pos.up().up(),
+          MinecraftNotIncludedBlocks.glowingCrystalHanging
+              .getDefaultState()
+              .withProperty(
+                  BlockGlowingCrystal.TYPE,
+                  BlockGlowingCrystal.Type.values()[world.rand.nextInt(Type.values().length - 1)]),
+          3);
+    }
+  }
+
+  public void addLighting(CubicBiome biome, ICube cube) {
+    int maxGroundLights = (int) (8 + (biome.getBiome().getRainfall() * 10));
+    int maxCeilingLights = (int) (biome.getBiome().getRainfall() * 10);
+    for (int x = 0; x < 16; x++) {
+      for (int z = 0; z < 16; z++) {
+        if (world.rand.nextInt(3) == 0) { // 25%
+          for (int y = 16; y >= 0; y--) {
+            BlockPos pos = cube.getCoords().getMinBlockPos().add(x, y, z);
+            if (world.getBlockState(pos).getMaterial() == Material.AIR) {
+              if (maxGroundLights > 0 && isGround(cube, pos) && world.rand.nextInt(4) == 0) {
+                if (world.rand.nextInt(10) == 0) { // 5%
+                  addSmallCrystal(biome, pos);
+                } else {
+                  addMushroom(biome, pos);
+                }
+                maxGroundLights--;
+              }
+              if (maxCeilingLights > 0 && isCeiling(cube, pos) && world.rand.nextInt(6) == 0) {
+                if (world.rand.nextInt(8) == 0) { // 12.5%
+                  addCeilingCrystal(biome, pos);
+                } else {
+                  addCeilingPlant(biome, pos);
+                }
+                maxCeilingLights--;
+              }
+            }
+            if (maxCeilingLights <= 0 && maxGroundLights <= 0) {
+              return;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  //  public void addLighting(CubicBiome cubicBiome, ICube cube) {
+  //    int groundLightsPerCube = 20 + ((int) cubicBiome.getBiome().getRainfall() * 10);
+  //    int ceilingLights = 5 + ((int) cubicBiome.getBiome().getRainfall() * 15);
+  //    ALL:
+  //    for (int x = 0; x < 16; x++) {
+  //      for (int y = 16; y >= 0; y--) {
+  //        for (int z = 0; z < 16; z++) {
+  //          if (world.rand.nextInt(3) == 0
+  //              && world.isAirBlock(cube.getCoords().getMinBlockPos().add(x, y, z))) {
+  //            // Add Mushrooms
+  //            if (groundLightsPerCube > 0
+  //                && world
+  //                        .getBlockState(cube.getCoords().getMinBlockPos().add(x, y - 1, z))
+  //                        .getMaterial()
+  //                    != Material.AIR
+  //                && world.getLight(cube.getCoords().getMinBlockPos().add(x, y, z)) < 4
+  //                && world.isBlockFullCube(cube.getCoords().getMinBlockPos().add(x, y - 1, z))) {
+  //              BlockPos pos = cube.getCoords().getMinBlockPos().add(x, y, z);
+  //              world.setBlockState(
+  //                  pos,
+  //                  MinecraftNotIncludedBlocks.glowingMushroom.getMushroomForBiome(
+  //                      world, cubicBiome.getBiome()),
+  //                  3);
+  //              groundLightsPerCube--;
+  //            }
+  //            // Add Hanging
+  //            if (ceilingLights > 0
+  //                && world
+  //                        .getBlockState(cube.getCoords().getMinBlockPos().add(x, y + 1, z))
+  //                        .getMaterial()
+  //                    != Material.AIR
+  //                && world
+  //                        .getBlockState(cube.getCoords().getMinBlockPos().add(x, y - 2, z))
+  //                        .getMaterial()
+  //                    == Material.AIR) {
+  //              MinecraftNotIncludedBlocks.glowingDoublePlant.placeAt(
+  //                  world,
+  //                  cube.getCoords().getMinBlockPos().add(x, y - 1, z),
+  //                  EnumPlantType.Hibiscus,
+  //                  3);
+  //              ceilingLights--;
+  //            }
+  //          }
+  //          if (groundLightsPerCube <= 0 && ceilingLights <= 0) {
+  //            break ALL;
+  //          }
+  //        }
+  //      }
+  //    }
+  //  }
 }

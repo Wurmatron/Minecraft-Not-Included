@@ -1,0 +1,9 @@
+{
+    "variants":
+    {
+        "type=red":  { "model": "minecraftnotincluded:glowingflower_red" },
+        "type=pink":   { "model": "minecraftnotincluded:glowingflower_pink" },
+        "type=green":   { "model": "minecraftnotincluded:glowingflower_green" },
+        "type=purple": { "model": "minecraftnotincluded:glowingflower_purple" }
+    }
+}

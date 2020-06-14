@@ -34,6 +34,16 @@ public class Registry {
     return block;
   }
 
+  public static Block registerBlock(Block block, String registryName, boolean noItem) {
+    if (!noItem) {
+      return registerBlock(block, registryName);
+    }
+    block.setRegistryName(registryName);
+    block.setTranslationKey(registryName);
+    blocks.add(block);
+    return block;
+  }
+
   public static Block registerBlock(Block block, String registryName, ItemBlock itemBlock) {
     block.setRegistryName(registryName);
     block.setTranslationKey(registryName);
@@ -52,6 +62,8 @@ public class Registry {
   @SubscribeEvent
   public void registerItems(RegistryEvent.Register<Item> e) {
     e.getRegistry().registerAll(items.toArray(new Item[0]));
-    for (Block block : blockItems.keySet()) e.getRegistry().register(blockItems.get(block));
+    for (Block block : blockItems.keySet()) {
+      e.getRegistry().register(blockItems.get(block));
+    }
   }
 }

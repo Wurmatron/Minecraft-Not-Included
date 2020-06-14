@@ -1,0 +1,6 @@
+{
+    "parent": "block/cross",
+    "textures": {
+        "cross": "minecraftnotincluded:blocks/cone_flower_upper"
+    }
+}

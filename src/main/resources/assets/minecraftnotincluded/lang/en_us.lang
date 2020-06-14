@@ -1,0 +1,36 @@
+# Creative Tabs
+itemGroup.tabMNI=Minecraft Not Included
+
+# World Type
+generator.MNI=Minecraft Not Included
+
+# Items
+item.pinkCrystal.name=Pink Crystal
+item.blueCrystal.name=Blue Crystal
+item.redCrystal.name=Red Crystal
+item.orangeCrystal.name=Orange Crystal
+item.greenCrystal.name=Green Crystal
+item.whiteCrystal.name=Crystal
+
+# Blocks
+tile.glowingVines.name=Glowing Vines
+item.glowingmushroom_brown.name=Glowing Brown Mushroom
+item.glowingmushroom_red.name=Glowing Red Mushroom
+item.glowingmushroom_gold.name=Glowing Gold Mushroom
+item.glowingmushroom_blue.name=Glowing Blue Mushroom
+item.glowingCrystal_pink.name=Glowing Pink Crystal
+item.glowingCrystal_blue.name=Glowing Blue Crystal
+item.glowingCrystal_red.name=Glowing Red Crystal
+item.glowingCrystal_orange.name=Glowing Orange Crystal
+item.glowingCrystal_green.name=Glowing Green Crystal
+item.glowingCrystal_white.name=Glowing Crystal
+tile.geyserWater.name=Water Geyser
+tile.geyserLava.name=Lava Geyser
+item.glowingFlower_red.name=Glowing Red Flower
+item.glowingFlower_pink.name=Glowing Pink Flower
+item.glowingFlower_green.name=Glowing Green Flower
+item.glowingFlower_purple.name=Glowing Purple Flower
+tile.largeVine.name=Large Vine
+tile.glowingDoublePlant.name=Glowing Plant
+tile.dust.name=Dust Block
+tile.compressedDust.name=Compressed Dust Block

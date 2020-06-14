@@ -1,6 +1,6 @@
 package com.wurmcraft.minecraftnotincluded.common.item.block;
 
-import com.wurmcraft.minecraftnotincluded.common.block.BlockGlowingMushroom;
+import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingMushroom;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;

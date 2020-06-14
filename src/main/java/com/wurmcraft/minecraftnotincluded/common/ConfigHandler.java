@@ -7,6 +7,12 @@ import net.minecraftforge.common.config.Config.Comment;
 @Config(modid = Global.MODID)
 public class ConfigHandler {
 
+  @Comment("Register items / blocks with the ore dictionary?")
+  public static boolean enableOreDictEntries = true;
+
+  @Comment("Replace the default generator with this one")
+  public static boolean replaceDefaultGenerator = true;
+
   @Config(modid = Global.MODID, category = "Biomes")
   public static class Biomes {
 

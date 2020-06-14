@@ -1,8 +1,11 @@
 package com.wurmcraft.minecraftnotincluded.client;
 
 import com.wurmcraft.minecraftnotincluded.common.CommonProxy;
-import com.wurmcraft.minecraftnotincluded.common.block.BlockGlowingMushroom;
 import com.wurmcraft.minecraftnotincluded.common.block.MinecraftNotIncludedBlocks;
+import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingCrystal;
+import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingFlower;
+import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingMushroom;
+import com.wurmcraft.minecraftnotincluded.common.item.MinecraftNotIncludedItems;
 import com.wurmcraft.minecraftnotincluded.common.references.Global;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -66,13 +69,33 @@ public class ClientProxy extends CommonProxy {
 
   @SubscribeEvent
   public void loadModel(ModelRegistryEvent e) {
-    //    createModel(Item.getItemFromBlock(MinecraftNotIncludedBlocks.geyserWater), 0, "geyserWater");
-    //    createModel(Item.getItemFromBlock(MinecraftNotIncludedBlocks.geyserLava), 0, "geyserLava");
     for (BlockGlowingMushroom.EnumType type : BlockGlowingMushroom.EnumType.values()) {
       createModel(
           Item.getItemFromBlock(MinecraftNotIncludedBlocks.glowingMushroom),
           type.getMetadata(),
           "glowingmushroom_" + type.getName());
     }
+    for (BlockGlowingCrystal.Type type : BlockGlowingCrystal.Type.values()) {
+      createModel(
+          Item.getItemFromBlock(MinecraftNotIncludedBlocks.glowingCrystal),
+          type.getMeta(),
+          "glowingcrystal_" + type.getName());
+    }
+    for (BlockGlowingFlower.Type type : BlockGlowingFlower.Type.values()) {
+      createModel(
+          Item.getItemFromBlock(MinecraftNotIncludedBlocks.glowingFlower),
+          type.getMeta(),
+          "glowingflower_" + type.getName());
+    }
+    for (int index = 0; index < MinecraftNotIncludedItems.META_ITEMS.length; index++) {
+      createModel(
+          MinecraftNotIncludedItems.itemMeta, index, MinecraftNotIncludedItems.META_ITEMS[index]);
+    }
+    createModel(Item.getItemFromBlock(MinecraftNotIncludedBlocks.glowingVines), 0, "glowingvines");
+    createModel(Item.getItemFromBlock(MinecraftNotIncludedBlocks.blockDust), 0, "dust");
+    createModel(
+        Item.getItemFromBlock(MinecraftNotIncludedBlocks.blockCompressedDust),
+        0,
+        "compressed_dust");
   }
 }

@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "type=pink": {
+      "model": "minecraftnotincluded:glowingcrystal_pink"
+    },
+    "type=blue": {
+      "model": "minecraftnotincluded:glowingcrystal_blue"
+    },
+    "type=red": {
+      "model": "minecraftnotincluded:glowingcrystal_red"
+    },
+    "type=orange": {
+      "model": "minecraftnotincluded:glowingcrystal_orange"
+    },
+    "type=green": {
+      "model": "minecraftnotincluded:glowingcrystal_green"
+    },
+    "type=white": {
+      "model": "minecraftnotincluded:glowingcrystal_white"
+    }
+  }
+}

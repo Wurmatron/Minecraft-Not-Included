@@ -1,5 +1,6 @@
 package com.wurmcraft.minecraftnotincluded.common.world;
 
+import com.wurmcraft.minecraftnotincluded.MinecraftNotIncluded;
 import com.wurmcraft.minecraftnotincluded.common.ConfigHandler.Wasteland;
 import com.wurmcraft.minecraftnotincluded.common.world.overworld.MNIOverworldGenerator;
 import io.github.opencubicchunks.cubicchunks.api.util.IntRange;
@@ -42,7 +43,39 @@ public class MNIWorldType extends WorldType implements ICubicWorldType {
 
   @Override
   public float getCloudHeight() {
-    if (!Wasteland.enabled) return CubicChunks.MAX_BLOCK_Y;
+    if (!Wasteland.enabled) {
+      return CubicChunks.MAX_BLOCK_Y;
+    }
     return super.getCloudHeight();
+  }
+
+  public static void replaceDefaultGenerator() {
+    if (WorldType.WORLD_TYPES.length > 0) {
+      // Find our WorldType
+      WorldType mniWorldType = null;
+      for (int i = 0; i < WorldType.WORLD_TYPES.length; i++) {
+        WorldType type = WorldType.WORLD_TYPES[i];
+        if (type != null) {
+          if (type.getName().equalsIgnoreCase("MNI")) {
+            mniWorldType = type;
+            WorldType.WORLD_TYPES[i] = null; // Remove ourselves from the worldType
+          }
+        }
+      }
+      // Shift the current worldTypes
+      shiftWorldTypes(WorldType.WORLD_TYPES[0], 0);
+      // Set as the default worldType
+      WorldType.WORLD_TYPES[0] = mniWorldType;
+    } else {
+      MinecraftNotIncluded.logger.error("No WorldTypes Exist, Unable to proceed");
+    }
+  }
+
+  private static void shiftWorldTypes(WorldType type, int currentIndex) {
+    WorldType nextType = WorldType.WORLD_TYPES[currentIndex + 1];
+    if (nextType != null) {
+      WorldType.WORLD_TYPES[currentIndex + 1] = type;
+      shiftWorldTypes(nextType, ++currentIndex);
+    }
   }
 }
