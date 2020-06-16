@@ -1,5 +1,7 @@
 package com.wurmcraft.minecraftnotincluded;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.wurmcraft.minecraftnotincluded.common.CommonProxy;
 import com.wurmcraft.minecraftnotincluded.common.ConfigHandler;
 import com.wurmcraft.minecraftnotincluded.common.ConfigHandler.Wasteland;
@@ -12,10 +14,12 @@ import com.wurmcraft.minecraftnotincluded.common.references.Global;
 import com.wurmcraft.minecraftnotincluded.common.tile.TileGeyzer;
 import com.wurmcraft.minecraftnotincluded.common.utils.Registry;
 import com.wurmcraft.minecraftnotincluded.common.world.MNIWorldType;
+import java.io.File;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -42,6 +46,8 @@ public class MinecraftNotIncluded {
   public static MinecraftNotIncluded instance;
 
   public static Logger logger;
+  public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+  public static File oreConfig;
 
   public static CreativeTabs tabMNI =
       new CreativeTabs("tabMNI") {
@@ -84,6 +90,13 @@ public class MinecraftNotIncluded {
     if (ConfigHandler.enableOreDictEntries) {
       OreDict.register();
     }
+    oreConfig =
+        new File(
+            Loader.instance().getConfigDir()
+                + File.separator
+                + Global.NAME.replaceAll(" ", "_")
+                + File.separator
+                + "ore.json");
     if (ConfigHandler.replaceDefaultGenerator) {
       MNIWorldType.replaceDefaultGenerator();
     }

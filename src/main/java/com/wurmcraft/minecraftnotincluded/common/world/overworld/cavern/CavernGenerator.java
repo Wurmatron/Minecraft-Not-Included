@@ -16,7 +16,6 @@ import io.github.opencubicchunks.cubicchunks.api.worldgen.structure.ICubicStruct
 import io.github.opencubicchunks.cubicchunks.cubicgen.StructureGenUtil;
 import java.util.Random;
 import java.util.function.Predicate;
-import javax.annotation.Nonnull;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -303,9 +302,6 @@ public class CavernGenerator implements ICubicStructureGenerator {
       //CHANGE: multiply max(1, vertCaveSizeMod)
       double maxDistToCube = baseCaveSize * max(1, vertCaveSizeMod) + CAVE_SIZE_ADD + ICube.SIZE;
 
-      //can this cube be reached at all?
-      //if even after going max distance allowed by remaining steps, it's still too far - stop
-      //TODO: does it make any performance difference?
       if (xDist * xDist + yDist * yDist + zDist * zDist - maxStepsDist * maxStepsDist
           > maxDistToCube * maxDistToCube) {
         return;
@@ -320,8 +316,8 @@ public class CavernGenerator implements ICubicStructureGenerator {
 
   //returns true if cave generation should be continued
   private void tryCarveBlocks(
-      @Nonnull CubePrimer cube,
-      @Nonnull CubePos generatedCubePos,
+      CubePrimer cube,
+      CubePos generatedCubePos,
       double caveX,
       double caveY,
       double caveZ,
@@ -331,8 +327,6 @@ public class CavernGenerator implements ICubicStructureGenerator {
     double genCubeCenterY = generatedCubePos.getYCenter();
     double genCubeCenterZ = generatedCubePos.getZCenter();
 
-    //Can current step position affect currently modified cube?
-    //TODO: is multiply by 2 needed?
     if (caveX < genCubeCenterX - ICube.SIZE - caveSizeHoriz * 2.0D
         || caveY < genCubeCenterY - ICube.SIZE - caveSizeVert * 2.0D
         || caveZ < genCubeCenterZ - ICube.SIZE - caveSizeHoriz * 2.0D

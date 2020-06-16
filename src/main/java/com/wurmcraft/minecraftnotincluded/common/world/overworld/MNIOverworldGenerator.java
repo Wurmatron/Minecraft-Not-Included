@@ -1,5 +1,6 @@
 package com.wurmcraft.minecraftnotincluded.common.world.overworld;
 
+import com.wurmcraft.minecraftnotincluded.common.world.generation.OreGenerator;
 import com.wurmcraft.minecraftnotincluded.common.world.overworld.biome.MNIBiomeSource;
 import com.wurmcraft.minecraftnotincluded.common.world.overworld.biome.ModdedBiomeProvider;
 import io.github.opencubicchunks.cubicchunks.api.util.Coords;
@@ -19,6 +20,7 @@ public class MNIOverworldGenerator extends BasicCubeGenerator {
 
   private MNIBiomeSource biomeSource;
   private OverworldTerrainBuilder terrainBuilder;
+  private OreGenerator oreGenerator;
 
   public MNIOverworldGenerator(World world) {
     this(world, world.getBiomeProvider());
@@ -35,6 +37,7 @@ public class MNIOverworldGenerator extends BasicCubeGenerator {
                 ModdedBiomeProvider.getGeneratorSettings(
                     world, "{\n" + "  \"biomeSize\": 7,\n" + "  \"riverSize\": 0\n" + "}")));
     terrainBuilder = new OverworldTerrainBuilder(world);
+    oreGenerator = new OreGenerator(world);
     // Update Build Height
     FMLCommonHandler.instance().getMinecraftServerInstance().setBuildLimit(CubicChunks.MAX_BLOCK_Y);
   }
@@ -70,14 +73,6 @@ public class MNIOverworldGenerator extends BasicCubeGenerator {
     CubeGeneratorsRegistry.generateWorld(
         cube.getWorld(), cube.getWorld().rand, cube.getCoords(), cubicBiome.getBiome());
     terrainBuilder.addLighting(cubicBiome, cube);
-
-    //    for (int x = 0; x < 16; x++) {
-    //      for (int y = 0; y < 16; y++) {
-    //        for (int z = 0; z < 16; z++) {
-    //          if (cube.getBlockState(x, y, z).getMaterial() == Material.WATER)
-    //            world.setBlockState(new BlockPos(x, y, z), Blocks.AIR.getDefaultState(), 3);
-    //        }
-    //      }
-    //    }
+    oreGenerator.generate(world, world.rand, cube.getCoords(), cubicBiome.getBiome());
   }
 }
