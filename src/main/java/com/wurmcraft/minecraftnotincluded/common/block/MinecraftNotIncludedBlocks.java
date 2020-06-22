@@ -1,5 +1,6 @@
 package com.wurmcraft.minecraftnotincluded.common.block;
 
+import com.wurmcraft.minecraftnotincluded.common.block.farm.BlockFarmTile;
 import com.wurmcraft.minecraftnotincluded.common.block.generation.BlockLargeVine;
 import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingCrystal;
 import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingCrystalHanging;
@@ -7,12 +8,17 @@ import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingDoubleP
 import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingFlower;
 import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingMushroom;
 import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingVines;
+import com.wurmcraft.minecraftnotincluded.common.item.block.ItemFarmTile;
 import com.wurmcraft.minecraftnotincluded.common.item.block.ItemGlowingCrystal;
 import com.wurmcraft.minecraftnotincluded.common.item.block.ItemGlowingFlower;
 import com.wurmcraft.minecraftnotincluded.common.item.block.ItemGlowingMushroom;
+import com.wurmcraft.minecraftnotincluded.common.references.Global;
+import com.wurmcraft.minecraftnotincluded.common.tile.TileEntityFarm;
 import com.wurmcraft.minecraftnotincluded.common.utils.Registry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class MinecraftNotIncludedBlocks {
 
@@ -32,6 +38,9 @@ public class MinecraftNotIncludedBlocks {
   public static BlockGlowingVines glowingVines;
   public static BlockLargeVine largeVine;
   public static BlockGlowingCrystalHanging glowingCrystalHanging;
+
+  // Farm
+  public static BlockFarmTile farmTile;
 
   public static void register() {
     // Geyser
@@ -60,5 +69,9 @@ public class MinecraftNotIncludedBlocks {
         glowingCrystalHanging = new BlockGlowingCrystalHanging(), "glowingCrystalHanging", true);
     Registry.registerBlock(glowingVines = new BlockGlowingVines(), "glowingVines");
     Registry.registerBlock(largeVine = new BlockLargeVine(), "largeVine", true);
+    // Farming
+    Registry.registerBlock(farmTile = new BlockFarmTile(), "farmTile", new ItemFarmTile(farmTile));
+    GameRegistry.registerTileEntity(
+        TileEntityFarm.class, new ResourceLocation(Global.MODID, "farmTile"));
   }
 }

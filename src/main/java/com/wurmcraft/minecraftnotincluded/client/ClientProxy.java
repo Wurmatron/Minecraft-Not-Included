@@ -7,6 +7,8 @@ import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingFlower;
 import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingMushroom;
 import com.wurmcraft.minecraftnotincluded.common.item.MinecraftNotIncludedItems;
 import com.wurmcraft.minecraftnotincluded.common.references.Global;
+import com.wurmcraft.minecraftnotincluded.common.tile.TileEntityFarm;
+import com.wurmcraft.minecraftnotincluded.common.tile.render.RenderFarmTile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,6 +17,7 @@ import net.minecraft.util.IThreadListener;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -28,6 +31,7 @@ public class ClientProxy extends CommonProxy {
   public void preInit(FMLPreInitializationEvent e) {
     super.preInit(e);
     MinecraftForge.EVENT_BUS.register(this);
+    ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFarm.class, new RenderFarmTile());
   }
 
   @Override
@@ -51,20 +55,13 @@ public class ClientProxy extends CommonProxy {
   }
 
   @Override
-  public IThreadListener getThreadListener(MessageContext ctx) {
-    if (ctx.side.isClient()) {
-      return Minecraft.getMinecraft();
-    }
-    return null;
+  public EntityPlayer getPlayer(MessageContext ctx) {
+    return (ctx.side.isClient() ? Minecraft.getMinecraft().player : super.getPlayer(ctx));
   }
 
   @Override
-  public EntityPlayer getPlayer(MessageContext ctx) {
-    if (ctx.side.isClient()) {
-      return Minecraft.getMinecraft().player;
-    } else {
-      return null;
-    }
+  public IThreadListener getThreadListener(MessageContext ctx) {
+    return (ctx.side.isClient() ? Minecraft.getMinecraft() : super.getThreadListener(ctx));
   }
 
   @SubscribeEvent
@@ -97,5 +94,6 @@ public class ClientProxy extends CommonProxy {
         Item.getItemFromBlock(MinecraftNotIncludedBlocks.blockCompressedDust),
         0,
         "compressed_dust");
+    createModel(Item.getItemFromBlock(MinecraftNotIncludedBlocks.farmTile), 0, "farmtile");
   }
 }

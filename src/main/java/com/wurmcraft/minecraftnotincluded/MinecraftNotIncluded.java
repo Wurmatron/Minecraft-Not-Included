@@ -9,9 +9,12 @@ import com.wurmcraft.minecraftnotincluded.common.OreDict;
 import com.wurmcraft.minecraftnotincluded.common.biome.BiomeRegistry;
 import com.wurmcraft.minecraftnotincluded.common.block.MinecraftNotIncludedBlocks;
 import com.wurmcraft.minecraftnotincluded.common.event.SurfaceRadiationEvent;
+import com.wurmcraft.minecraftnotincluded.common.gui.GuiHandler;
 import com.wurmcraft.minecraftnotincluded.common.item.MinecraftNotIncludedItems;
+import com.wurmcraft.minecraftnotincluded.common.network.NetworkHandler;
 import com.wurmcraft.minecraftnotincluded.common.references.Global;
 import com.wurmcraft.minecraftnotincluded.common.tile.TileGeyzer;
+import com.wurmcraft.minecraftnotincluded.common.utils.FarmRegistry;
 import com.wurmcraft.minecraftnotincluded.common.utils.Registry;
 import com.wurmcraft.minecraftnotincluded.common.world.MNIWorldType;
 import java.io.File;
@@ -28,6 +31,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.Logger;
 
@@ -81,6 +85,8 @@ public class MinecraftNotIncluded {
       }
     }
     MinecraftForge.EVENT_BUS.register(new MinecraftNotIncluded());
+    NetworkHandler.registerPackets();
+    NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
   }
 
   @EventHandler
@@ -100,6 +106,7 @@ public class MinecraftNotIncluded {
     if (ConfigHandler.replaceDefaultGenerator) {
       MNIWorldType.replaceDefaultGenerator();
     }
+    FarmRegistry.loadAndSetup();
   }
 
   @EventHandler

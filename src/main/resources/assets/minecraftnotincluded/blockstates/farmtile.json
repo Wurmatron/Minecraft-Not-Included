@@ -1,0 +1,15 @@
+{
+  "variants": {
+    "facing=down": [
+      {
+        "model": "minecraftnotincluded:farmtile"
+      }
+    ],
+    "facing=up": [
+      {
+        "model": "minecraftnotincluded:farmtile",
+        "x": 180
+      }
+    ]
+  }
+}

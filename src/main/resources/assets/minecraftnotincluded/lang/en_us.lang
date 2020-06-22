@@ -34,3 +34,12 @@ tile.largeVine.name=Large Vine
 tile.glowingDoublePlant.name=Glowing Plant
 tile.dust.name=Dust Block
 tile.compressedDust.name=Compressed Dust Block
+tile.farmTile.name=Farm Tile
+
+# Gui
+stat.soil.name=Soil
+stat.fertilization.name=Fertilization
+stat.hydration.name=Hydration
+
+# Tooltip
+tooltip.noAutomation.name=Unable to Automate
