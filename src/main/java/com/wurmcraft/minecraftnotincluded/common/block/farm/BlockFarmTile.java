@@ -1,7 +1,7 @@
 package com.wurmcraft.minecraftnotincluded.common.block.farm;
 
 import com.wurmcraft.minecraftnotincluded.MinecraftNotIncluded;
-import com.wurmcraft.minecraftnotincluded.common.gui.GuiHandler;
+import com.wurmcraft.minecraftnotincluded.client.gui.GuiHandler;
 import com.wurmcraft.minecraftnotincluded.common.network.NetworkHandler;
 import com.wurmcraft.minecraftnotincluded.common.network.packets.OpenGuiMessage;
 import com.wurmcraft.minecraftnotincluded.common.tile.TileEntityFarm;

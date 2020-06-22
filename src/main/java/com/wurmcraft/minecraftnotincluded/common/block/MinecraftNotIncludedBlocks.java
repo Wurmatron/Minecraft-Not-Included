@@ -1,6 +1,7 @@
 package com.wurmcraft.minecraftnotincluded.common.block;
 
 import com.wurmcraft.minecraftnotincluded.common.block.farm.BlockFarmTile;
+import com.wurmcraft.minecraftnotincluded.common.block.farm.BlockHydroponicsTile;
 import com.wurmcraft.minecraftnotincluded.common.block.generation.BlockLargeVine;
 import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingCrystal;
 import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingCrystalHanging;
@@ -14,6 +15,7 @@ import com.wurmcraft.minecraftnotincluded.common.item.block.ItemGlowingFlower;
 import com.wurmcraft.minecraftnotincluded.common.item.block.ItemGlowingMushroom;
 import com.wurmcraft.minecraftnotincluded.common.references.Global;
 import com.wurmcraft.minecraftnotincluded.common.tile.TileEntityFarm;
+import com.wurmcraft.minecraftnotincluded.common.tile.TileEntityHydroponics;
 import com.wurmcraft.minecraftnotincluded.common.utils.Registry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -41,6 +43,7 @@ public class MinecraftNotIncludedBlocks {
 
   // Farm
   public static BlockFarmTile farmTile;
+  public static BlockHydroponicsTile hydroponicsTile;
 
   public static void register() {
     // Geyser
@@ -73,5 +76,8 @@ public class MinecraftNotIncludedBlocks {
     Registry.registerBlock(farmTile = new BlockFarmTile(), "farmTile", new ItemFarmTile(farmTile));
     GameRegistry.registerTileEntity(
         TileEntityFarm.class, new ResourceLocation(Global.MODID, "farmTile"));
+    Registry.registerBlock(hydroponicsTile = new BlockHydroponicsTile(), "hydroponicsTile");
+    GameRegistry.registerTileEntity(
+        TileEntityHydroponics.class, new ResourceLocation(Global.MODID, "hydroponicsTile"));
   }
 }

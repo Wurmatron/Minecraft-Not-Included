@@ -1,4 +1,4 @@
-package com.wurmcraft.minecraftnotincluded.common.gui.farm;
+package com.wurmcraft.minecraftnotincluded.client.gui.farm;
 
 import com.wurmcraft.minecraftnotincluded.api.Farmable;
 import net.minecraft.init.Blocks;
@@ -26,11 +26,12 @@ public class SlotInput extends Slot {
 
   public static boolean canInputItem(ItemStack stack, Farmable farm) {
     if (farm != null) {
+      FluidStack fluid = getStackFluid(stack);
       return stack.isItemEqual(farm.getSoil())
           || isFertilizer(stack)
-          || (getStackFluid(stack).getFluid().equals(farm.getFluid()));
+          || fluid != null && (fluid.getFluid().equals(farm.getFluid()));
     }
-    return isSoil(stack) || isFertilizer(stack) || isFluid(stack);
+    return false;
   }
 
   public static boolean isSoil(ItemStack stack) {

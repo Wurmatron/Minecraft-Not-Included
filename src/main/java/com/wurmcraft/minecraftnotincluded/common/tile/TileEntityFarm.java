@@ -3,24 +3,26 @@ package com.wurmcraft.minecraftnotincluded.common.tile;
 import com.wurmcraft.minecraftnotincluded.api.Farmable;
 import com.wurmcraft.minecraftnotincluded.api.Farmable.DropChance;
 import com.wurmcraft.minecraftnotincluded.api.Farmable.TILE_TYPE;
-import com.wurmcraft.minecraftnotincluded.common.gui.farm.SlotInput;
+import com.wurmcraft.minecraftnotincluded.client.gui.farm.SlotInput;
 import com.wurmcraft.minecraftnotincluded.common.utils.FarmRegistry;
 import java.util.Arrays;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 
-public class TileEntityFarm extends TileEntity implements ITickable, IInventory {
+public class TileEntityFarm extends TileEntity implements ITickable, IInventory, ISidedInventory {
 
   // Config
   public static final int MAX_SOIL_STORAGE = 256;
@@ -41,7 +43,7 @@ public class TileEntityFarm extends TileEntity implements ITickable, IInventory 
 
   // Dynamic / Calculated based on stored values
   private int ticksUntillPull;
-  private Farmable selectedCrop;
+  protected Farmable selectedCrop;
 
   public TileEntityFarm() {
     inv = new ItemStack[6];
@@ -116,7 +118,7 @@ public class TileEntityFarm extends TileEntity implements ITickable, IInventory 
     return true;
   }
 
-  private boolean addOutput(ItemStack stack) {
+  protected boolean addOutput(ItemStack stack) {
     for (int x = 2; x < 6; x++) {
       ItemStack slotStack = getStackInSlot(x);
       if (slotStack.isEmpty()) {
@@ -156,7 +158,7 @@ public class TileEntityFarm extends TileEntity implements ITickable, IInventory 
     }
   }
 
-  private void handleInput() {
+  protected void handleInput() {
     if (!getStackInSlot(0).isEmpty()) {
       if (getStackInSlot(0).isItemEqual(selectedCrop.getSoil())) { // Soil
         addSoil();
@@ -465,5 +467,20 @@ public class TileEntityFarm extends TileEntity implements ITickable, IInventory 
 
   public Farmable getFarmable() {
     return selectedCrop;
+  }
+
+  @Override
+  public int[] getSlotsForFace(EnumFacing side) {
+    return new int[0];
+  }
+
+  @Override
+  public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
+    return false;
+  }
+
+  @Override
+  public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
+    return false;
   }
 }

@@ -1,0 +1,79 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "minecraftnotincluded:blocks/hydroponicstile_side",
+		"1": "minecraftnotincluded:blocks/hydroponicstile_top",
+		"2": "minecraftnotincluded:blocks/hydroponicstile_bottom",
+		"particle": "minecraftnotincluded:blocks/hydroponicstile_side"
+	},
+	"elements": [
+		{
+			"name": "Core",
+			"from": [1, 0, 1],
+			"to": [15, 16, 15],
+			"rotation": {"angle": 0, "axis": "y", "origin": [9, 8, 9]},
+			"faces": {
+				"north": {"uv": [1, 1, 15, 14.999], "texture": "#1"},
+				"east": {"uv": [1, 1, 15, 14.999], "texture": "#1"},
+				"south": {"uv": [1, 1, 15, 14.999], "texture": "#1"},
+				"west": {"uv": [1, 1, 15, 14.999], "texture": "#1"},
+				"up": {"uv": [1, 1, 15, 14.999], "texture": "#1"},
+				"down": {"uv": [1, 1, 15, 14.999], "texture": "#2"}
+			}
+		},
+		{
+			"name": "NSide",
+			"from": [1, 0, 0],
+			"to": [15, 16, 1],
+			"faces": {
+				"north": {"uv": [1, 0, 14.999, 16], "texture": "#0"},
+				"east": {"uv": [14, 0, 14.999, 16], "texture": "#0"},
+				"south": {"uv": [14, 0, 14.999, 16], "texture": "#0"},
+				"west": {"uv": [14, 0, 14.999, 16], "texture": "#0"},
+				"up": {"uv": [14, 0, 14.999, 16], "texture": "#0"},
+				"down": {"uv": [14, 0, 14.999, 16], "texture": "#0"}
+			}
+		},
+		{
+			"name": "SSide",
+			"from": [1, 0, 15],
+			"to": [15, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 23]},
+			"faces": {
+				"north": {"uv": [1, 0, 1.998, 16], "texture": "#0"},
+				"east": {"uv": [1, 0, 1.998, 16], "texture": "#0"},
+				"south": {"uv": [1, 0, 14.998, 16], "texture": "#0"},
+				"west": {"uv": [1, 0, 1.998, 16], "texture": "#0"},
+				"up": {"uv": [1, 0, 1.998, 16], "texture": "#0"},
+				"down": {"uv": [1, 0, 1.998, 16], "texture": "#0"}
+			}
+		},
+		{
+			"name": "WSide",
+			"from": [0, 0, 1],
+			"to": [1, 16, 15],
+			"faces": {
+				"north": {"uv": [14, 0, 14.999, 16], "texture": "#0"},
+				"east": {"uv": [14, 0, 14.999, 16], "texture": "#0"},
+				"south": {"uv": [14, 0, 14.999, 16], "texture": "#0"},
+				"west": {"uv": [1, 0, 14.999, 16], "texture": "#0"},
+				"up": {"uv": [14, 0, 14.999, 16], "texture": "#0"},
+				"down": {"uv": [14, 0, 14.999, 16], "texture": "#0"}
+			}
+		},
+		{
+			"name": "ESide",
+			"from": [15, 0, 1],
+			"to": [16, 16, 15],
+			"rotation": {"angle": 0, "axis": "y", "origin": [23, 8, 8]},
+			"faces": {
+				"north": {"uv": [1, 0, 1.999, 16], "texture": "#0"},
+				"east": {"uv": [1, 0, 14.999, 16], "texture": "#0"},
+				"south": {"uv": [1, 0, 1.999, 16], "texture": "#0"},
+				"west": {"uv": [1, 0, 1.999, 16], "texture": "#0"},
+				"up": {"uv": [1, 0, 1.999, 16], "texture": "#0"},
+				"down": {"uv": [1, 0, 1.999, 16], "texture": "#0"}
+			}
+		}
+	]
+}

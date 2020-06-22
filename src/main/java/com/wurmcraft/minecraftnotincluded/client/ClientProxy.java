@@ -1,5 +1,6 @@
 package com.wurmcraft.minecraftnotincluded.client;
 
+import com.wurmcraft.minecraftnotincluded.client.render.RenderFarmTile;
 import com.wurmcraft.minecraftnotincluded.common.CommonProxy;
 import com.wurmcraft.minecraftnotincluded.common.block.MinecraftNotIncludedBlocks;
 import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingCrystal;
@@ -8,7 +9,6 @@ import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingMushroo
 import com.wurmcraft.minecraftnotincluded.common.item.MinecraftNotIncludedItems;
 import com.wurmcraft.minecraftnotincluded.common.references.Global;
 import com.wurmcraft.minecraftnotincluded.common.tile.TileEntityFarm;
-import com.wurmcraft.minecraftnotincluded.common.tile.render.RenderFarmTile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;

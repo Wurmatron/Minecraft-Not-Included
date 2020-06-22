@@ -1,4 +1,4 @@
-package com.wurmcraft.minecraftnotincluded.common.tile.render;
+package com.wurmcraft.minecraftnotincluded.client.render;
 
 import com.wurmcraft.minecraftnotincluded.common.tile.TileEntityFarm;
 import net.minecraft.client.Minecraft;

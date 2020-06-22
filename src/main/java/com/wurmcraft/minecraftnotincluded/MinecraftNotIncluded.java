@@ -2,6 +2,7 @@ package com.wurmcraft.minecraftnotincluded;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.wurmcraft.minecraftnotincluded.client.gui.GuiHandler;
 import com.wurmcraft.minecraftnotincluded.common.CommonProxy;
 import com.wurmcraft.minecraftnotincluded.common.ConfigHandler;
 import com.wurmcraft.minecraftnotincluded.common.ConfigHandler.Wasteland;
@@ -9,7 +10,6 @@ import com.wurmcraft.minecraftnotincluded.common.OreDict;
 import com.wurmcraft.minecraftnotincluded.common.biome.BiomeRegistry;
 import com.wurmcraft.minecraftnotincluded.common.block.MinecraftNotIncludedBlocks;
 import com.wurmcraft.minecraftnotincluded.common.event.SurfaceRadiationEvent;
-import com.wurmcraft.minecraftnotincluded.common.gui.GuiHandler;
 import com.wurmcraft.minecraftnotincluded.common.item.MinecraftNotIncludedItems;
 import com.wurmcraft.minecraftnotincluded.common.network.NetworkHandler;
 import com.wurmcraft.minecraftnotincluded.common.references.Global;

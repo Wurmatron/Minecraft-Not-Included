@@ -1,4 +1,4 @@
-package com.wurmcraft.minecraftnotincluded.common.gui.farm;
+package com.wurmcraft.minecraftnotincluded.client.gui.farm;
 
 import com.wurmcraft.minecraftnotincluded.common.tile.TileEntityFarm;
 import net.minecraft.entity.player.EntityPlayer;

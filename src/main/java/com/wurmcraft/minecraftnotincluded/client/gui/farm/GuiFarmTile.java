@@ -1,4 +1,4 @@
-package com.wurmcraft.minecraftnotincluded.common.gui.farm;
+package com.wurmcraft.minecraftnotincluded.client.gui.farm;
 
 import com.wurmcraft.minecraftnotincluded.common.network.NetworkHandler;
 import com.wurmcraft.minecraftnotincluded.common.network.packets.EmptyFarmPacket;
@@ -19,6 +19,8 @@ import org.lwjgl.input.Keyboard;
 public class GuiFarmTile extends GuiContainer {
 
   private TileEntityFarm te;
+  protected ResourceLocation GUI_TEXTURE =
+      new ResourceLocation(Global.MODID, "textures/gui/farm-tile.png");
 
   // Button Status
   private boolean soilEmptyToggle;
@@ -35,8 +37,7 @@ public class GuiFarmTile extends GuiContainer {
     super.drawDefaultBackground();
     int startX = (width - 176) / 2;
     int startY = (height - 174) / 2;
-    mc.getTextureManager()
-        .bindTexture(new ResourceLocation(Global.MODID, "textures/gui/farm-tile.png"));
+    mc.getTextureManager().bindTexture(GUI_TEXTURE);
     drawTexturedModalRect(startX, startY, 0, 0, 176, 174);
     drawEmptyButtons(startX, startY, mouseX, mouseY);
     drawStatusBars(startX, startY, mouseX, mouseY);
@@ -145,8 +146,7 @@ public class GuiFarmTile extends GuiContainer {
     GlStateManager.scale(.5, .5, .5);
     fontRenderer.drawString("Empty", (startX + 29) * 2, (startY + 35) * 2, Color.WHITE.getRGB());
     GlStateManager.popMatrix();
-    mc.getTextureManager()
-        .bindTexture(new ResourceLocation(Global.MODID, "textures/gui/farm-tile.png"));
+    mc.getTextureManager().bindTexture(GUI_TEXTURE);
   }
 
   private static boolean isWithin(int minX, int maxX, int minY, int maxY, int mouseX, int mouseY) {

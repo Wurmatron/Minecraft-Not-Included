@@ -1,0 +1,15 @@
+{
+  "variants": {
+    "facing=down": [
+      {
+        "model": "minecraftnotincluded:hydroponicstile"
+      }
+    ],
+    "facing=up": [
+      {
+        "model": "minecraftnotincluded:hydroponicstile",
+        "x": 180
+      }
+    ]
+  }
+}
