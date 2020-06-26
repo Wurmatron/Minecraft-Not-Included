@@ -5,19 +5,18 @@ import com.wurmcraft.minecraftnotincluded.api.Farmable.DropChance;
 import com.wurmcraft.minecraftnotincluded.api.Farmable.TILE_TYPE;
 import com.wurmcraft.minecraftnotincluded.client.gui.farm.SlotInput;
 import com.wurmcraft.minecraftnotincluded.common.utils.FarmRegistry;
-import java.util.Arrays;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
-import net.minecraftforge.common.util.Constants.NBT;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
@@ -32,7 +31,7 @@ public class TileEntityFarm extends TileEntity implements ITickable, IInventory,
   public static final int TICKS_BETWEEN_INPUT = 10;
 
   // Stored in NBT
-  private ItemStack[] inv;
+  private NonNullList<ItemStack> inventory;
   private double soilAmount;
   private ItemStack soilType;
   private double fluidAmount;
@@ -46,8 +45,7 @@ public class TileEntityFarm extends TileEntity implements ITickable, IInventory,
   protected Farmable selectedCrop;
 
   public TileEntityFarm() {
-    inv = new ItemStack[6];
-    Arrays.fill(inv, ItemStack.EMPTY);
+    inventory = NonNullList.withSize(6, ItemStack.EMPTY);
     soilAmount = 0;
     soilType = ItemStack.EMPTY;
     fluidAmount = 0;
@@ -238,14 +236,7 @@ public class TileEntityFarm extends TileEntity implements ITickable, IInventory,
   @Override
   public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
     super.writeToNBT(nbt);
-    NBTTagList itemNBT = new NBTTagList();
-    for (ItemStack item : inv) {
-      if (item == null) {
-        item = ItemStack.EMPTY;
-      }
-      itemNBT.appendTag(item.writeToNBT(new NBTTagCompound()));
-    }
-    nbt.setTag("items", itemNBT);
+    ItemStackHelper.saveAllItems(nbt, inventory);
     nbt.setDouble("soil", soilAmount);
     nbt.setTag("soilType", soilType.writeToNBT(new NBTTagCompound()));
     nbt.setDouble("fluid", fluidAmount);
@@ -259,10 +250,7 @@ public class TileEntityFarm extends TileEntity implements ITickable, IInventory,
   @Override
   public void readFromNBT(NBTTagCompound nbt) {
     super.readFromNBT(nbt);
-    NBTTagList itemList = nbt.getTagList("items", NBT.TAG_COMPOUND);
-    for (int x = 0; x < getSizeInventory(); x++) {
-      inv[x] = new ItemStack(itemList.getCompoundTagAt(x));
-    }
+    ItemStackHelper.loadAllItems(nbt, inventory);
     this.soilAmount = nbt.getDouble("soil");
     this.soilType = new ItemStack(nbt.getCompoundTag("soilType"));
     this.fluidAmount = nbt.getDouble("fluid");
@@ -273,13 +261,8 @@ public class TileEntityFarm extends TileEntity implements ITickable, IInventory,
   }
 
   @Override
-  public int getSizeInventory() {
-    return 6;
-  }
-
-  @Override
   public boolean isEmpty() {
-    for (ItemStack stack : inv) {
+    for (ItemStack stack : inventory) {
       if (!stack.isEmpty()) {
         return false;
       }
@@ -288,40 +271,29 @@ public class TileEntityFarm extends TileEntity implements ITickable, IInventory,
   }
 
   @Override
+  public int getSizeInventory() {
+    return 6;
+  }
+
+  @Override
   public ItemStack getStackInSlot(int index) {
-    if (inv.length > index) {
-      return inv[index];
-    }
-    return ItemStack.EMPTY;
+    return inventory.get(index);
   }
 
   @Override
   public ItemStack decrStackSize(int index, int count) {
-    ItemStack slotStack = getStackInSlot(index);
-    slotStack.setCount(slotStack.getCount() - count);
-    if (slotStack.getCount() <= 0) {
-      slotStack = ItemStack.EMPTY;
-    }
-    markDirty();
-    return slotStack;
+    return inventory.get(index).splitStack(count);
   }
 
   @Override
   public ItemStack removeStackFromSlot(int index) {
-    if (inv.length > index) {
-      inv[index] = ItemStack.EMPTY;
-      markDirty();
-      return inv[index];
-    }
-    return ItemStack.EMPTY;
+    return inventory.set(index, ItemStack.EMPTY);
   }
 
   @Override
   public void setInventorySlotContents(int index, ItemStack stack) {
-    if (inv.length > index) {
-      inv[index] = stack;
-      markDirty();
-    }
+    inventory.set(index, stack);
+    markDirty();
   }
 
   @Override
@@ -342,10 +314,7 @@ public class TileEntityFarm extends TileEntity implements ITickable, IInventory,
 
   @Override
   public boolean isItemValidForSlot(int index, ItemStack stack) {
-    if (index == 0 && selectedCrop != null) { // Input Slot
-      return SlotInput.canInputItem(stack, selectedCrop);
-    }
-    return false;
+    return false; // Automation Only
   }
 
   @Override
@@ -386,7 +355,7 @@ public class TileEntityFarm extends TileEntity implements ITickable, IInventory,
 
   @Override
   public void clear() {
-    inv = new ItemStack[6];
+    inventory = NonNullList.withSize(6, ItemStack.EMPTY);
   }
 
   @Override

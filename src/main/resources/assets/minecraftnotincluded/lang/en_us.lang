@@ -35,6 +35,7 @@ tile.glowingDoublePlant.name=Glowing Plant
 tile.dust.name=Dust Block
 tile.compressedDust.name=Compressed Dust Block
 tile.farmTile.name=Farm Tile
+tile.hydroponicsTile.name=Hydroponics Farm
 
 # Gui
 stat.soil.name=Soil

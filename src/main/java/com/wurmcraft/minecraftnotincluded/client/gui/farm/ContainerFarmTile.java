@@ -24,7 +24,6 @@ public class ContainerFarmTile extends Container {
   public ContainerFarmTile(TileEntityFarm te, EntityPlayer player) {
     this.te = te;
     this.player = player;
-    addPlayerSlots();
     // Input Slots
     addSlotToContainer(new SlotInput(te, 0, 28, 39));
     addSlotToContainer(new SlotSeed(te, 1, 83, 39));
@@ -33,18 +32,19 @@ public class ContainerFarmTile extends Container {
     addSlotToContainer(new SlotOutput(te, 3, 144, 16));
     addSlotToContainer(new SlotOutput(te, 4, 126, 34));
     addSlotToContainer(new SlotOutput(te, 5, 144, 34));
+    addPlayerSlots();
   }
 
   private void addPlayerSlots() {
-    // Hotbar
-    for (int x = 0; x < 9; ++x) {
-      addSlotToContainer(new Slot(player.inventory, x, 8 + x * 18, 126));
-    }
     // Main Inventory
     for (int y = 0; y < 3; ++y) {
       for (int x = 0; x < 9; ++x) {
         this.addSlotToContainer(new Slot(player.inventory, x + y * 9 + 9, 8 + x * 18, 68 + y * 18));
       }
+    }
+    // Hotbar
+    for (int x = 0; x < 9; ++x) {
+      addSlotToContainer(new Slot(player.inventory, x, 8 + x * 18, 126));
     }
   }
 
@@ -77,6 +77,7 @@ public class ContainerFarmTile extends Container {
     this.storedFertilizer = te.getField(1);
     this.storedFluid = te.getField(2);
     this.fertilizerEfficiency = te.getField(3);
+    this.growth = te.getField(4);
   }
 
   @SideOnly(Side.CLIENT)
@@ -85,13 +86,69 @@ public class ContainerFarmTile extends Container {
   }
 
   @Override
-  public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
-    return super.transferStackInSlot(playerIn, index);
+  public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+    ItemStack previous = ItemStack.EMPTY;
+    Slot slot = inventorySlots.get(index);
+    if (slot != null && slot.getHasStack()) {
+      ItemStack slotStack = slot.getStack();
+      ItemStack stack = slotStack.copy();
+      if (index == 2 || index == 3 || index == 4 || index == 5) {
+        if (mergeItemStack(stack, 0, 41, true)) {
+          slot.putStack(ItemStack.EMPTY);
+          return ItemStack.EMPTY;
+        }
+        slot.onSlotChange(slotStack, stack);
+      } else if (index == 0 || index == 1) {
+        if (mergeItemStack(stack, 0, 41, true)) {
+          slot.putStack(ItemStack.EMPTY);
+          return ItemStack.EMPTY;
+        }
+        slot.onSlotChange(slotStack, stack);
+      } else {
+        if (!inventorySlots.get(1).getHasStack() && SlotSeed.canInputItem(slotStack)) {
+          if (mergeItemStack(stack, 0, 1, true)) {
+            slot.putStack(ItemStack.EMPTY);
+            return ItemStack.EMPTY;
+          }
+        } else if (SlotInput.canInputItem(slotStack, te.getFarmable())) {
+          if (mergeItemStack(stack, 0, 1, false)) {
+            slot.putStack(ItemStack.EMPTY);
+            return ItemStack.EMPTY;
+          }
+        }
+      }
+    }
+    return previous;
   }
 
   @Override
   protected boolean mergeItemStack(
       ItemStack stack, int startIndex, int endIndex, boolean reverseDirection) {
-    return super.mergeItemStack(stack, startIndex, endIndex, reverseDirection);
+    if (reverseDirection) {
+      for (int x = endIndex; x > startIndex; x--) {
+        Slot currentSlot = getSlot(x);
+        if (putStackInSlot(currentSlot, stack)) {
+          currentSlot.putStack(stack);
+          return true;
+        }
+      }
+    } else {
+      for (int x = startIndex; x < endIndex; x++) {
+        Slot currentSlot = getSlot(x);
+        if (putStackInSlot(currentSlot, stack)) {
+          currentSlot.putStack(stack);
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  private boolean putStackInSlot(Slot slot, ItemStack stack) {
+    if (!slot.getHasStack()) return true;
+    if (slot.getHasStack()
+        && slot.getStack().isItemEqual(stack)
+        && (slot.getStack().getCount() + stack.getCount()) <= stack.getMaxStackSize()) return true;
+    return false;
   }
 }

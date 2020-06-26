@@ -1,19 +1,21 @@
 package com.wurmcraft.minecraftnotincluded.client.gui.farm;
 
 import com.wurmcraft.minecraftnotincluded.api.Farmable;
-import net.minecraft.init.Blocks;
+import java.util.*;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
 public class SlotInput extends Slot {
 
-  private static final ItemStack BONE_MEAL = new ItemStack(Items.DYE, 1, 15);
-  private static final ItemStack SOIL = new ItemStack(Blocks.DIRT, 1);
+  public static NonNullList<ItemStack> slotItems = NonNullList.create();
+  public static List<Fluid> fluids = new ArrayList<>();
 
   public SlotInput(IInventory inv, int index, int xPosition, int yPosition) {
     super(inv, index, xPosition, yPosition);
@@ -25,21 +27,7 @@ public class SlotInput extends Slot {
   }
 
   public static boolean canInputItem(ItemStack stack, Farmable farm) {
-    if (farm != null) {
-      FluidStack fluid = getStackFluid(stack);
-      return stack.isItemEqual(farm.getSoil())
-          || isFertilizer(stack)
-          || fluid != null && (fluid.getFluid().equals(farm.getFluid()));
-    }
-    return false;
-  }
-
-  public static boolean isSoil(ItemStack stack) {
-    return stack.isItemEqual(SOIL);
-  }
-
-  public static boolean isFertilizer(ItemStack stack) {
-    return stack.isItemEqual(BONE_MEAL);
+    return validItem(stack) || isFluid(stack) && getStackFluid(stack) != null && validFluid(stack);
   }
 
   public static boolean isFluid(ItemStack stack) {
@@ -48,6 +36,29 @@ public class SlotInput extends Slot {
 
   public static FluidStack getStackFluid(ItemStack stack) {
     return FluidUtil.getFluidContained(stack);
+  }
+
+  private static boolean validItem(ItemStack s) {
+    for (ItemStack stack : slotItems) {
+      if (stack.isItemEqual(s)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private static boolean validFluid(ItemStack stack) {
+    FluidStack fluid = getStackFluid(stack);
+    for (Fluid f : fluids) {
+      if (fluid.getFluid().equals(f)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public static boolean isFertilizer(ItemStack stack) {
+    return stack.isItemEqual(new ItemStack(Items.DYE, 1, 15));
   }
 
   public static int getFertilizerWorth(ItemStack stack) {

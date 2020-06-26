@@ -2,6 +2,8 @@ package com.wurmcraft.minecraftnotincluded.common.utils;
 
 import com.wurmcraft.minecraftnotincluded.api.Farmable;
 import com.wurmcraft.minecraftnotincluded.api.Farmable.TILE_TYPE;
+import com.wurmcraft.minecraftnotincluded.client.gui.farm.SlotInput;
+import com.wurmcraft.minecraftnotincluded.client.gui.farm.SlotSeed;
 import java.util.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -89,10 +91,16 @@ public class FarmRegistry {
     for (TILE_TYPE type : farmable.getFarmType()) {
       if (tileFarmables.containsKey(type)) {
         tileFarmables.get(type).add(farmable);
+        SlotInput.slotItems.add(farmable.getSoil());
+        SlotInput.fluids.add(farmable.getFluid());
+        SlotSeed.supportedSeeds.add(farmable.getSeed());
       } else {
         List<Farmable> temp = new ArrayList<>();
         temp.add(farmable);
         tileFarmables.put(type, temp);
+        SlotInput.slotItems.add(farmable.getSoil());
+        SlotInput.fluids.add(farmable.getFluid());
+        SlotSeed.supportedSeeds.add(farmable.getSeed());
       }
     }
   }

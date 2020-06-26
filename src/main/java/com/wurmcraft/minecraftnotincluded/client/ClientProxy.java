@@ -9,6 +9,7 @@ import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingMushroo
 import com.wurmcraft.minecraftnotincluded.common.item.MinecraftNotIncludedItems;
 import com.wurmcraft.minecraftnotincluded.common.references.Global;
 import com.wurmcraft.minecraftnotincluded.common.tile.TileEntityFarm;
+import com.wurmcraft.minecraftnotincluded.common.tile.TileEntityHydroponics;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,6 +33,7 @@ public class ClientProxy extends CommonProxy {
     super.preInit(e);
     MinecraftForge.EVENT_BUS.register(this);
     ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFarm.class, new RenderFarmTile());
+    ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHydroponics.class, new RenderFarmTile());
   }
 
   @Override
@@ -95,5 +97,7 @@ public class ClientProxy extends CommonProxy {
         0,
         "compressed_dust");
     createModel(Item.getItemFromBlock(MinecraftNotIncludedBlocks.farmTile), 0, "farmtile");
+    createModel(
+        Item.getItemFromBlock(MinecraftNotIncludedBlocks.hydroponicsTile), 0, "hydroponicstile");
   }
 }

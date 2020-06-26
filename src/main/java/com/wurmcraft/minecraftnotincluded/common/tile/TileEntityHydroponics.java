@@ -1,16 +1,25 @@
 package com.wurmcraft.minecraftnotincluded.common.tile;
 
 import com.wurmcraft.minecraftnotincluded.client.gui.farm.SlotInput;
+import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.fluids.FluidStack;
 
 public class TileEntityHydroponics extends TileEntityFarm {
 
+  public NonNullList<ItemStack> farmContents;
+
+  public TileEntityHydroponics() {
+    farmContents = NonNullList.withSize(6, ItemStack.EMPTY);
+  }
+
   @Override
   public int[] getSlotsForFace(EnumFacing side) {
-    return new int[]{0, 2, 3, 4, 5};
+    return new int[] {0, 2, 3, 4, 5};
   }
 
   @Override
@@ -38,5 +47,18 @@ public class TileEntityHydroponics extends TileEntityFarm {
         }
       }
     }
+  }
+
+  @Override
+  public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+    super.writeToNBT(nbt);
+    ItemStackHelper.saveAllItems(nbt, farmContents);
+    return nbt;
+  }
+
+  @Override
+  public void readFromNBT(NBTTagCompound nbt) {
+    super.readFromNBT(nbt);
+    ItemStackHelper.loadAllItems(nbt, farmContents);
   }
 }
