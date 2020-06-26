@@ -1,5 +1,7 @@
 package com.wurmcraft.minecraftnotincluded.common.tile;
 
+import static com.wurmcraft.minecraftnotincluded.common.utils.BlockUtils.getStackFromString;
+
 import com.wurmcraft.minecraftnotincluded.api.Farmable;
 import com.wurmcraft.minecraftnotincluded.api.Farmable.DropChance;
 import com.wurmcraft.minecraftnotincluded.api.Farmable.TILE_TYPE;
@@ -104,11 +106,11 @@ public class TileEntityFarm extends TileEntity implements ITickable, IInventory,
   private boolean outputCrops() {
     for (DropChance item : selectedCrop.getDropChances()) {
       if (item.chance == 1) {
-        if (!addOutput(item.stack)) {
+        if (!addOutput(getStackFromString(item.stack))) {
           return false;
         }
       } else if (Math.random() < item.chance) {
-        if (!addOutput(item.stack)) {
+        if (!addOutput(getStackFromString(item.stack))) {
           return false;
         }
       }

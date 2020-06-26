@@ -1,5 +1,14 @@
 package com.wurmcraft.minecraftnotincluded.common.utils;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTException;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
+
 public class BlockUtils {
 
   public static String getModID(String line) {
@@ -29,9 +38,43 @@ public class BlockUtils {
         } catch (NumberFormatException e) {
           return -1;
         }
-      } else return -1;
+      } else {
+        return -1;
+      }
     } else {
       return -1;
     }
+  }
+
+  public static Block getBlock(String modid, String name) {
+    return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(modid, name));
+  }
+
+  public static IBlockState getState(String str) {
+    Block block = getBlock(getModID(str), getName(str));
+    int meta = getMeta(str);
+    if (meta >= 0) {
+      return block.getStateFromMeta(meta);
+    } else {
+      return block.getDefaultState();
+    }
+  }
+
+  public static String stateToString(IBlockState state) {
+    return state.getBlock().getRegistryName().getNamespace()
+        + ":"
+        + state.getBlock().getRegistryName().getPath()
+        + ":"
+        + state.getBlock().getMetaFromState(state);
+  }
+
+  public static ItemStack getStackFromString(String item) {
+    try {
+      NBTTagCompound nbt = JsonToNBT.getTagFromJson(item);
+      return new ItemStack(nbt);
+    } catch (NBTException e) {
+      e.printStackTrace();
+    }
+    return ItemStack.EMPTY;
   }
 }

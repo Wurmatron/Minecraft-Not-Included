@@ -46,11 +46,17 @@ public abstract class Farmable {
     MULTI_BLOCK;
   }
 
-  public class DropChance {
+  public static class DropChance {
+
     public double chance;
-    public ItemStack stack;
+    public String stack;
 
     public DropChance(double chance, ItemStack stack) {
+      this.chance = chance;
+      this.stack = stack.serializeNBT().toString();
+    }
+
+    public DropChance(double chance, String stack) {
       this.chance = chance;
       this.stack = stack;
     }
