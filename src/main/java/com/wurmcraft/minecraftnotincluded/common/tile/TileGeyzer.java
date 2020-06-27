@@ -1,5 +1,9 @@
 package com.wurmcraft.minecraftnotincluded.common.tile;
 
+import com.wurmcraft.minecraftnotincluded.api.GeyserData;
+import com.wurmcraft.minecraftnotincluded.common.utils.BlockUtils;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
@@ -7,121 +11,116 @@ import net.minecraft.util.math.BlockPos;
 
 public class TileGeyzer extends TileEntity implements ITickable {
 
-  public static final int UPDATE_TIMER = 1;
-  public static final int SLEEP_TIME = 60;
-  public static final int MAX_RADIUS = 6;
-  public static final int MAX_HEIGHT = 4;
+  // Config
+  private static final int TIME_BETWEEN_CHECK = 20;
+  private static final int MAX_RADIUS = 3;
+  private static final int MAX_HEIGHT = 2;
 
-  // NBT Saved
-  public Type type;
-  public int speed;
-  private int nextSleep;
-  // Temp Var's
-  public int currentRadius = 0;
-  private BlockPos currentPos;
-  private BlockPos lastPos;
-  private int sleepLeft = 0;
+  // NBT
+  private IBlockState fluid;
+  private int ticksPerBlock;
+  private double frackingMultiplier;
+  private int ticksLeftTillBlockPlacement;
 
-  public TileGeyzer(Type type) {
-    this.type = type;
-    this.speed = 10;
-    this.nextSleep = SLEEP_TIME;
-    this.sleepLeft = SLEEP_TIME;
+  // Dynamic
+  private GeyserData geyserData;
+
+  public TileGeyzer(GeyserData data) {
+    this.geyserData = data;
+    this.fluid = data.getBlock();
+    this.ticksPerBlock = data.getTicksPerBlock();
+    this.frackingMultiplier = 1;
+    ticksLeftTillBlockPlacement = data.getTicksPerBlock();
+  }
+
+  public TileGeyzer(IBlockState fluid, int ticksPerBlock, double frackingMultiplier) {
+    this.fluid = fluid;
+    this.ticksPerBlock = ticksPerBlock;
+    this.frackingMultiplier = frackingMultiplier;
+    this.ticksLeftTillBlockPlacement = ticksPerBlock;
   }
 
   @Override
   public void update() {
-    if (!world.isRemote && world.getWorldTime() % UPDATE_TIMER == 0) {
-      if (nextSleep != 0) {
-        nextSleep--;
-        if (currentPos == null) {
-          currentPos = new BlockPos(0, 1, 0);
-          if (lastPos == null) {
-            lastPos = currentPos;
-          }
-        }
-        if (currentRadius > MAX_RADIUS) {
-          if (currentPos.getY() < MAX_HEIGHT) {
-            currentPos = new BlockPos(0, currentPos.getY() + 1, 0);
-            currentRadius = 0;
-          }
-        } else {
-          currentPos = getNextPlacement(currentPos);
-          lastPos = currentPos;
-          if (world.isAirBlock(getPos().add(currentPos))) {
-            world.setBlockState(getPos().add(currentPos), type.getBlock(), 2);
-          } else if (!world.getBlockState(getPos().add(currentPos)).equals(type.getBlock())) {
-            if (currentPos.getY() < MAX_HEIGHT) {
-              currentPos = new BlockPos(0, currentPos.getY() + 1, 0);
-              currentRadius = 0;
-            } else {
-              nextSleep = 0;
-              sleepLeft = SLEEP_TIME;
-              currentPos = getPos().add(0, 1, 0);
+    if (getWorld().getWorldTime() % TIME_BETWEEN_CHECK == 0) {
+      if (ticksLeftTillBlockPlacement <= 0) {
+        placeNextBlock();
+        ticksLeftTillBlockPlacement =
+            ticksPerBlock - (int) (ticksPerBlock * (1 - frackingMultiplier));
+      } else {
+        ticksLeftTillBlockPlacement -= TIME_BETWEEN_CHECK;
+      }
+    }
+  }
+
+  private void placeNextBlock() {
+    if (canReplaceBlock(world.getBlockState(pos.add(0, 1, 0)))) {
+      world.setBlockState(pos.add(0, 1, 0), fluid, 2);
+    } else if (canReplaceBlock(world.getBlockState(pos.add(0, 2, 0)))) {
+      world.setBlockState(pos.add(0, 2, 0), fluid, 2);
+    } else {
+      for (int currentHeight = 0; currentHeight <= MAX_HEIGHT; currentHeight++) {
+        for (int currentRadius = 1; currentRadius <= MAX_RADIUS; currentRadius++) {
+          boolean isValid = isValidExpand(currentRadius, currentHeight);
+          if (isValid) {
+            BlockPos nextLocation = findNextLocation(currentRadius, currentHeight);
+            if (nextLocation != null) {
+              world.setBlockState(nextLocation, fluid, 2);
+              return;
             }
           }
         }
-      } else {
-        sleepLeft--;
-        if (sleepLeft == 0) {
-          nextSleep = SLEEP_TIME;
-          sleepLeft = SLEEP_TIME;
+      }
+    }
+  }
+
+  private boolean isValidExpand(int currentRadius, int height) {
+    if (currentRadius > 0) {
+      BlockPos nextLocation = findNextLocation(currentRadius, height);
+      return nextLocation != null;
+    } else {
+      return canReplaceBlock(world.getBlockState(pos.add(0, height, 0)));
+    }
+  }
+
+  private BlockPos findNextLocation(int currentRadius, int height) {
+    for (int x = 0; x < currentRadius; x++) {
+      for (int z = 0; z < currentRadius; z++) {
+        for (int flip = 0; flip <= 1; flip++) {
+          if (canReplaceBlock(world.getBlockState(pos.add(flip == 1 ? x : -x, height, z)))) {
+            return pos.add(flip == 1 ? x : -x, height, z);
+          } else if (canReplaceBlock(world.getBlockState(pos.add(x, height, flip == 1 ? z : -z)))) {
+            return pos.add(x, height, flip == 1 ? z : -z);
+          } else if (canReplaceBlock(
+              world.getBlockState(pos.add(flip == 1 ? x : -x, height, flip == 1 ? z : -z)))) {
+            return pos.add(flip == 1 ? x : -x, height, flip == 1 ? z : -z);
+          }
         }
       }
     }
+    return null;
+  }
+
+  private boolean canReplaceBlock(IBlockState state) {
+    return state.getMaterial().equals(Material.AIR);
   }
 
   @Override
   public void readFromNBT(NBTTagCompound nbt) {
-    try {
-      type = Type.valueOf(nbt.getString("type"));
-    } catch (Exception e) {
-      type = Type.values()[0];
-    }
-    speed = nbt.getInteger("speed");
-    nextSleep = nbt.getInteger("sleep");
+    super.readFromNBT(nbt);
+    fluid = BlockUtils.getState(nbt.getString("fluid"));
+    ticksPerBlock = nbt.getInteger("ticksPerBlock");
+    frackingMultiplier = nbt.getDouble("frackingMultiplier");
+    ticksLeftTillBlockPlacement = nbt.getInteger("timeLeft");
   }
 
   @Override
   public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-    nbt.setString("type", type.name());
-    nbt.setInteger("speed", speed);
-    nbt.setInteger("sleep", nextSleep);
+    super.writeToNBT(nbt);
+    nbt.setString("fluid", BlockUtils.stateToString(fluid));
+    nbt.setInteger("ticksPerBlock", ticksPerBlock);
+    nbt.setDouble("frackingMultiplier", frackingMultiplier);
+    nbt.setInteger("timeLeft,", ticksLeftTillBlockPlacement);
     return nbt;
-  }
-
-  private BlockPos getNextPlacement(BlockPos currentPos) {
-    if (currentRadius == 0) {
-      currentRadius++;
-      return currentPos;
-    }
-    if (currentRadius > 0) {
-      if (currentPos.getZ() < currentRadius
-          && currentPos.getX() < currentRadius
-          && currentPos.getX() != -currentRadius
-          && currentPos.getZ() != -currentRadius) { // UP
-        return currentPos.add(0, 0, 1);
-      }
-      if (currentPos.getZ() == currentRadius
-          && -currentPos.getX() < currentRadius
-          && currentPos.getX() != currentRadius) { // RIGHT
-        return currentPos.add(-1, 0, 0);
-      }
-      if (-currentPos.getZ() < currentRadius
-          && currentPos.getX() == -currentRadius
-          && -currentPos.getZ() != currentRadius) { // DOWN
-        return currentPos.add(0, 0, -1);
-      }
-      if (-currentPos.getZ() == currentRadius && currentPos.getX() < currentRadius) { // LEFT
-        return currentPos.add(1, 0, 0);
-      }
-      if (currentPos.getX() == currentRadius && currentPos.getZ() < currentRadius) {
-        return currentPos.add(0, 0, 1);
-      }
-    }
-    if (currentPos.getX() == currentRadius && currentPos.getZ() == currentRadius) {
-      currentRadius++;
-    }
-    return currentPos;
   }
 }

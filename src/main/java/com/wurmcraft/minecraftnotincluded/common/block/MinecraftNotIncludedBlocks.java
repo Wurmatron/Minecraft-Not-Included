@@ -1,5 +1,6 @@
 package com.wurmcraft.minecraftnotincluded.common.block;
 
+import com.wurmcraft.minecraftnotincluded.api.GeyserData;
 import com.wurmcraft.minecraftnotincluded.common.block.farm.BlockFarmTile;
 import com.wurmcraft.minecraftnotincluded.common.block.farm.BlockHydroponicsTile;
 import com.wurmcraft.minecraftnotincluded.common.block.generation.BlockLargeVine;
@@ -9,6 +10,7 @@ import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingDoubleP
 import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingFlower;
 import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingMushroom;
 import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingVines;
+import com.wurmcraft.minecraftnotincluded.common.item.block.ItemBlockGeyser;
 import com.wurmcraft.minecraftnotincluded.common.item.block.ItemFarmTile;
 import com.wurmcraft.minecraftnotincluded.common.item.block.ItemGlowingCrystal;
 import com.wurmcraft.minecraftnotincluded.common.item.block.ItemGlowingFlower;
@@ -16,17 +18,19 @@ import com.wurmcraft.minecraftnotincluded.common.item.block.ItemGlowingMushroom;
 import com.wurmcraft.minecraftnotincluded.common.references.Global;
 import com.wurmcraft.minecraftnotincluded.common.tile.TileEntityFarm;
 import com.wurmcraft.minecraftnotincluded.common.tile.TileEntityHydroponics;
+import com.wurmcraft.minecraftnotincluded.common.utils.GeyserRegistry;
 import com.wurmcraft.minecraftnotincluded.common.utils.Registry;
+import java.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class MinecraftNotIncludedBlocks {
 
   // Geyser
-  public static Block geyserWater;
-  public static Block geyserLava;
+  public static List<Block> geysers = new ArrayList<>();
 
   // Surface
   public static Block blockDust;
@@ -47,8 +51,19 @@ public class MinecraftNotIncludedBlocks {
 
   public static void register() {
     // Geyser
-    //    Registry.registerBlock(geyserWater = new GeyserBlock(Type.WATER), "geyserWater");
-    //    Registry.registerBlock(geyserLava = new GeyserBlock(Type.LAVA), "geyserLava");
+    int currentGeysers = GeyserRegistry.getCount();
+    if (currentGeysers < 16) {
+      GeyserBlock geyserBlock = new GeyserBlock(0);
+      Registry.registerBlock(geyserBlock, "geyser_0", new ItemBlockGeyser(geyserBlock, 0));
+      geysers.add(geyserBlock);
+    } else {
+      for (int blocks = 0; blocks > (currentGeysers / 16); blocks++) {
+        GeyserBlock geyserBlock = new GeyserBlock(blocks);
+        geysers.add(geyserBlock);
+        Registry.registerBlock(
+            geyserBlock, "geyser_" + blocks, new ItemBlockGeyser(geyserBlock, blocks));
+      }
+    }
     // Surface
     Registry.registerBlock(blockDust = new BasicBlock(Material.SAND), "dust");
     Registry.registerBlock(blockCompressedDust = new BasicBlock(Material.SAND), "compressedDust");
@@ -79,5 +94,10 @@ public class MinecraftNotIncludedBlocks {
     Registry.registerBlock(hydroponicsTile = new BlockHydroponicsTile(), "hydroponicsTile");
     GameRegistry.registerTileEntity(
         TileEntityHydroponics.class, new ResourceLocation(Global.MODID, "hydroponicsTile"));
+  }
+
+  public static IBlockState getGeyser(GeyserData data) {
+    int dataIndex = GeyserRegistry.getIDFromData(data);
+    return geysers.get(dataIndex / 16).getStateFromMeta(dataIndex % 16);
   }
 }

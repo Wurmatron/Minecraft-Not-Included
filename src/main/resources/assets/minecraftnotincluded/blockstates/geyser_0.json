@@ -1,0 +1,84 @@
+{
+  "variants": {
+    "type=0": [
+      {
+        "model": "minecraftnotincluded:geyser_water"
+      }
+    ],
+    "type=1": [
+      {
+        "model": "minecraftnotincluded:geyser"
+      }
+    ],
+    "type=2": [
+      {
+        "model": "minecraftnotincluded:geyser"
+      }
+    ],
+    "type=3": [
+      {
+        "model": "minecraftnotincluded:geyser"
+      }
+    ],
+    "type=4": [
+      {
+        "model": "minecraftnotincluded:geyser"
+      }
+    ],
+    "type=5": [
+      {
+        "model": "minecraftnotincluded:geyser"
+      }
+    ],
+    "type=6": [
+      {
+        "model": "minecraftnotincluded:geyser"
+      }
+    ],
+    "type=7": [
+      {
+        "model": "minecraftnotincluded:geyser"
+      }
+    ],
+    "type=8": [
+      {
+        "model": "minecraftnotincluded:geyser"
+      }
+    ],
+    "type=9": [
+      {
+        "model": "minecraftnotincluded:geyser"
+      }
+    ],
+    "type=10": [
+      {
+        "model": "minecraftnotincluded:geyser"
+      }
+    ],
+    "type=11": [
+      {
+        "model": "minecraftnotincluded:geyser"
+      }
+    ],
+    "type=12": [
+      {
+        "model": "minecraftnotincluded:geyser"
+      }
+    ],
+    "type=13": [
+      {
+        "model": "minecraftnotincluded:geyser"
+      }
+    ],
+    "type=14": [
+      {
+        "model": "minecraftnotincluded:geyser"
+      }
+    ],
+    "type=15": [
+      {
+        "model": "minecraftnotincluded:geyser"
+      }
+    ]
+  }
+}
