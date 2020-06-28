@@ -15,13 +15,11 @@ import com.wurmcraft.minecraftnotincluded.common.network.NetworkHandler;
 import com.wurmcraft.minecraftnotincluded.common.references.Global;
 import com.wurmcraft.minecraftnotincluded.common.tile.TileGeyzer;
 import com.wurmcraft.minecraftnotincluded.common.utils.FarmRegistry;
-import com.wurmcraft.minecraftnotincluded.common.utils.GeyserDataJson;
 import com.wurmcraft.minecraftnotincluded.common.utils.GeyserRegistry;
 import com.wurmcraft.minecraftnotincluded.common.utils.Registry;
 import com.wurmcraft.minecraftnotincluded.common.world.MNIWorldType;
 import java.io.File;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -68,7 +66,7 @@ public class MinecraftNotIncluded {
   public void preInit(FMLPreInitializationEvent e) {
     logger = e.getModLog();
     proxy.preInit(e);
-    GeyserRegistry.register(new GeyserDataJson(Blocks.WATER.getDefaultState(), 5, 1.5));
+    GeyserRegistry.loadAndSetup();
     MinecraftForge.EVENT_BUS.register(new Registry());
     MinecraftForge.EVENT_BUS.register(new BiomeRegistry());
     GameRegistry.registerTileEntity(TileGeyzer.class, new ResourceLocation(Global.MODID, "geyzer"));

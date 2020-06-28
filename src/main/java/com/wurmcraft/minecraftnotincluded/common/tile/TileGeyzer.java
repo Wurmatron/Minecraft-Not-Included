@@ -56,8 +56,10 @@ public class TileGeyzer extends TileEntity implements ITickable {
   private void placeNextBlock() {
     if (canReplaceBlock(world.getBlockState(pos.add(0, 1, 0)))) {
       world.setBlockState(pos.add(0, 1, 0), fluid, 2);
+      return;
     } else if (canReplaceBlock(world.getBlockState(pos.add(0, 2, 0)))) {
       world.setBlockState(pos.add(0, 2, 0), fluid, 2);
+      return;
     } else {
       for (int currentHeight = 0; currentHeight <= MAX_HEIGHT; currentHeight++) {
         for (int currentRadius = 1; currentRadius <= MAX_RADIUS; currentRadius++) {

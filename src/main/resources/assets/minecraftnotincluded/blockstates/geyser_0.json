@@ -2,12 +2,12 @@
   "variants": {
     "type=0": [
       {
-        "model": "minecraftnotincluded:geyser_water"
+        "model": "minecraftnotincluded:geyser_lava"
       }
     ],
     "type=1": [
       {
-        "model": "minecraftnotincluded:geyser"
+        "model": "minecraftnotincluded:geyser_water"
       }
     ],
     "type=2": [

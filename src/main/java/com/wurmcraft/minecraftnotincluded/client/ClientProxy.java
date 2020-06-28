@@ -10,6 +10,8 @@ import com.wurmcraft.minecraftnotincluded.common.item.MinecraftNotIncludedItems;
 import com.wurmcraft.minecraftnotincluded.common.references.Global;
 import com.wurmcraft.minecraftnotincluded.common.tile.TileEntityFarm;
 import com.wurmcraft.minecraftnotincluded.common.tile.TileEntityHydroponics;
+import com.wurmcraft.minecraftnotincluded.common.utils.GeyserRegistry;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
@@ -99,5 +101,22 @@ public class ClientProxy extends CommonProxy {
     createModel(Item.getItemFromBlock(MinecraftNotIncludedBlocks.farmTile), 0, "farmtile");
     createModel(
         Item.getItemFromBlock(MinecraftNotIncludedBlocks.hydroponicsTile), 0, "hydroponicstile");
+    int shift = 0;
+    for (Block block : MinecraftNotIncludedBlocks.geysers) {
+      for (int index = 0; index < 16; index++) {
+        if (shift + index < GeyserRegistry.getCount()) {
+          createModel(
+              Item.getItemFromBlock(block),
+              index,
+              "geyser_"
+                  + GeyserRegistry.getDataFromID((shift * 16) + index)
+                      .getBlock()
+                      .getBlock()
+                      .getRegistryName()
+                      .getPath());
+        }
+      }
+      shift++;
+    }
   }
 }
