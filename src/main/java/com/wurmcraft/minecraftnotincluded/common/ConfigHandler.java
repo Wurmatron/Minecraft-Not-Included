@@ -17,8 +17,7 @@ public class ConfigHandler {
   public static class Biomes {
 
     @Comment("List of biomes that are able to be used in the creation of a cavern")
-    public static String[] enabledBiomes =
-        new String[] {"Forest", "Plains", net.minecraft.init.Biomes.DESERT.getBiomeName()};
+    public static String[] enabledBiomes = new String[] {"Forest", "Plains", "Desert"};
 
     @Comment("How many blocks before a biome change")
     public static int biomeShiftSize = 64;

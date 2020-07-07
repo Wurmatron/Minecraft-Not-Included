@@ -3,6 +3,8 @@ package com.wurmcraft.minecraftnotincluded.common.block;
 import com.wurmcraft.minecraftnotincluded.api.GeyserData;
 import com.wurmcraft.minecraftnotincluded.common.block.farm.BlockFarmTile;
 import com.wurmcraft.minecraftnotincluded.common.block.farm.BlockHydroponicsTile;
+import com.wurmcraft.minecraftnotincluded.common.block.farm.t1.BlockT1Controller;
+import com.wurmcraft.minecraftnotincluded.common.block.farm.t1.BlockT1Storage;
 import com.wurmcraft.minecraftnotincluded.common.block.generation.BlockLargeVine;
 import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingCrystal;
 import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingCrystalHanging;
@@ -10,6 +12,7 @@ import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingDoubleP
 import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingFlower;
 import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingMushroom;
 import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingVines;
+import com.wurmcraft.minecraftnotincluded.common.block.utils.BasicBlock;
 import com.wurmcraft.minecraftnotincluded.common.item.block.ItemBlockGeyser;
 import com.wurmcraft.minecraftnotincluded.common.item.block.ItemFarmTile;
 import com.wurmcraft.minecraftnotincluded.common.item.block.ItemGlowingCrystal;
@@ -18,6 +21,8 @@ import com.wurmcraft.minecraftnotincluded.common.item.block.ItemGlowingMushroom;
 import com.wurmcraft.minecraftnotincluded.common.references.Global;
 import com.wurmcraft.minecraftnotincluded.common.tile.TileEntityFarm;
 import com.wurmcraft.minecraftnotincluded.common.tile.TileEntityHydroponics;
+import com.wurmcraft.minecraftnotincluded.common.tile.utils.TileEntityController;
+import com.wurmcraft.minecraftnotincluded.common.tile.utils.TileEntitySlave;
 import com.wurmcraft.minecraftnotincluded.common.utils.GeyserRegistry;
 import com.wurmcraft.minecraftnotincluded.common.utils.Registry;
 import java.util.*;
@@ -48,6 +53,8 @@ public class MinecraftNotIncludedBlocks {
   // Farm
   public static BlockFarmTile farmTile;
   public static BlockHydroponicsTile hydroponicsTile;
+  public static BlockT1Controller controllerT1;
+  public static BlockT1Storage storageT1;
 
   public static void register() {
     // Geyser
@@ -94,6 +101,12 @@ public class MinecraftNotIncludedBlocks {
     Registry.registerBlock(hydroponicsTile = new BlockHydroponicsTile(), "hydroponicsTile");
     GameRegistry.registerTileEntity(
         TileEntityHydroponics.class, new ResourceLocation(Global.MODID, "hydroponicsTile"));
+
+    Registry.registerBlock(controllerT1 = new BlockT1Controller(), "farmControllerT1");
+    GameRegistry.registerTileEntity(TileEntityController.class, "controller");
+
+    Registry.registerBlock(storageT1 = new BlockT1Storage(), "storageT1");
+    GameRegistry.registerTileEntity(TileEntitySlave.class, "slave");
   }
 
   public static IBlockState getGeyser(GeyserData data) {
