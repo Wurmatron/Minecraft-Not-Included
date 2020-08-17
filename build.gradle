@@ -1,86 +1,71 @@
 buildscript {
     repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
         jcenter()
-        maven { url = "http://files.minecraftforge.net/maven" }
+        mavenCentral()
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:3.+'
     }
 }
+
 plugins {
-    id 'com.diffplug.gradle.spotless' version '3.4.0'
-    id "com.github.johnrengelman.shadow" version "2.0.4"
-    id "com.wynprice.cursemaven" version "1.2.2"
+    id "com.diffplug.gradle.spotless" version "3.28.1"
 }
-apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "${mod_version}"
-group = "com.wurmcraft.minecraftnotincluded" 
-archivesBaseName = "Minecraft-Not-Included"
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'eclipse'
 
-sourceCompatibility = targetCompatibility = '1.8' 
-compileJava {
-    sourceCompatibility = targetCompatibility = '1.8'
-}
+version = '0.0.X'
+group = 'io.wurmatron.minecraftnotincluded'
+archivesBaseName = 'Minecraft Not Included'
+
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
-    version = "${mc_version}-${forge_version}"
-    runDir = "run"
-    mappings = "${mcp_map}"
-	replace "@version@", project.version
-    replaceIn "Global.java"
-    clientRunArgs += "--username=${username}"
+    mappings channel: 'snapshot', version: '20171003-1.12'
+    // makeObfSourceJar = false
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+        }
+
+        server {
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+        }
+    }
 }
 
 repositories {
+    maven {
+        url = "https://www.cursemaven.com"
+    }
 }
 
 dependencies {
-    compile group: 'com.github.stephenc.high-scale-lib', name: 'high-scale-lib', version: '1.1.4'
-//    deobfCompile curse.resolve("opencubicchunks", 2743044)
-//    deobfCompile curse.resolve("cubicworldgen", 2711394)
+    // Minecraft
+    minecraft "net.minecraftforge:forge:1.12.2-${forge_version}"
+    // Libs
+    compile "com.boundary:high-scale-lib:${highscalelib_version}"
+    compile files("lib/CubicChunks-dev.jar")
+    compile files("lib/CubicWorldGen-dev.jar")
 }
 
-processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
-}
-
-spotless {
-    java {
-        googleJavaFormat()
-        removeUnusedImports()
-        indentWithSpaces()
-        trimTrailingWhitespace()
-        endWithNewline()
+jar {
+    manifest {
+        attributes([
+            "Specification-Title": "Minecraft-Not-Included",
+            "Specification-Vendor": "Wurmatron",
+            "Specification-Version": "1",
+            "Implementation-Title": project.name,
+            "Implementation-Version": "${mod_version}",
+            "Implementation-Vendor" :"Wurmatron",
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
     }
 }
-
-shadowJar.archiveName = "${archivesBaseName}-${version}.jar"
-shadowJar {
-    dependencies {
-        exclude('dummy*')
-        exclude('Cubic*')
-        exclude('Cavern*')
-        exclude('Terra*')
-        include(dependency('com.github.stephenc.high-scale-lib:high-scale-lib:1.1.4'))
-    }
-}
-
-reobf {
-    shadowJar {}
-}
-
-task buildAndPackage {
-    dependsOn 'clean'
-    dependsOn 'spotlessApply'
-    dependsOn 'build'
-    tasks.findByName('build').mustRunAfter 'clean'
-}
+jar.finalizedBy('reobfJar')

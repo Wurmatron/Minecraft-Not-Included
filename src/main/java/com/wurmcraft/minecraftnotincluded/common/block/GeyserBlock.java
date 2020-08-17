@@ -26,7 +26,6 @@ public class GeyserBlock extends Block implements ITileEntityProvider {
   public GeyserBlock(int shift) {
     super(Material.IRON);
     setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
-    setTranslationKey("geyser");
     setHardness(-1);
     setResistance(-1);
     this.shift = shift;

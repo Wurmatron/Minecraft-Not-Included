@@ -49,21 +49,25 @@ public class OreGenerator implements ICubicPopulator {
   }
 
   private static void createGenerators(World world) {
-    for (OreGeneration gen : config.ores) {
-      nameCache.put(gen.block, gen);
-      oreGenerators.put(gen.block, createGenerator(world, gen, config.generationType));
-      if (oreGeneratorRarityCache.containsKey(gen.rarity)) {
-        oreGeneratorRarityCache.get(gen.rarity).add(gen.block);
-      } else {
-        List<String> temp = new ArrayList<>();
-        temp.add(gen.block);
-        oreGeneratorRarityCache.put(gen.rarity, temp);
+    if (config != null) {
+      for (OreGeneration gen : config.ores) {
+        nameCache.put(gen.block, gen);
+        oreGenerators.put(gen.block, createGenerator(world, gen, config.generationType));
+        if (oreGeneratorRarityCache.containsKey(gen.rarity)) {
+          oreGeneratorRarityCache.get(gen.rarity).add(gen.block);
+        } else {
+          List<String> temp = new ArrayList<>();
+          temp.add(gen.block);
+          oreGeneratorRarityCache.put(gen.rarity, temp);
+        }
       }
-    }
-    for (OreGeneration gen : config.ores) {
-      if (highestRarity < gen.rarity) {
-        highestRarity = gen.rarity;
+      for (OreGeneration gen : config.ores) {
+        if (highestRarity < gen.rarity) {
+          highestRarity = gen.rarity;
+        }
       }
+    } else {
+      config = createDefaultConfig();
     }
   }
 
@@ -174,7 +178,7 @@ public class OreGenerator implements ICubicPopulator {
     }
     ResourceLocation loc = new ResourceLocation(modid, block);
     for (ResourceLocation l : ForgeRegistries.BLOCKS.getKeys()) {
-      if (l.getNamespace().equalsIgnoreCase(modid) && l.getPath().equalsIgnoreCase(block)) {
+      if (l.getResourceDomain().equalsIgnoreCase(modid) && l.getResourcePath().equalsIgnoreCase(block)) {
         loc = l;
       }
     }

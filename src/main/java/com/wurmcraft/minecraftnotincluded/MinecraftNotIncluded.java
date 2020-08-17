@@ -37,10 +37,10 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.Logger;
 
 @Mod(
-  modid = Global.MODID,
-  name = Global.NAME,
-  version = Global.VERSION,
-  dependencies = Global.DEPENDENCIES
+    modid = Global.MODID,
+    name = Global.NAME,
+    version = Global.VERSION,
+    dependencies = Global.DEPENDENCIES
 )
 public class MinecraftNotIncluded {
 
@@ -57,7 +57,7 @@ public class MinecraftNotIncluded {
   public static CreativeTabs tabMNI =
       new CreativeTabs("tabMNI") {
         @Override
-        public ItemStack createIcon() {
+        public ItemStack getTabIconItem() {
           return new ItemStack(MinecraftNotIncludedBlocks.glowingMushroom, 1, 2);
         }
       };
@@ -69,7 +69,8 @@ public class MinecraftNotIncluded {
     GeyserRegistry.loadAndSetup();
     MinecraftForge.EVENT_BUS.register(new Registry());
     MinecraftForge.EVENT_BUS.register(new BiomeRegistry());
-    GameRegistry.registerTileEntity(TileGeyzer.class, new ResourceLocation(Global.MODID, "geyzer"));
+    GameRegistry.registerTileEntity(TileGeyzer.class,
+        new ResourceLocation(Global.MODID, "geyzer"));
     MinecraftNotIncludedItems.register();
     MinecraftNotIncludedBlocks.register();
     new MNIWorldType();

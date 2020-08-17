@@ -1,5 +1,7 @@
 package com.wurmcraft.minecraftnotincluded.common.world.overworld;
 
+import com.wurmcraft.minecraftnotincluded.common.ConfigHandler.Wasteland;
+import com.wurmcraft.minecraftnotincluded.common.biome.BiomeRegistry;
 import com.wurmcraft.minecraftnotincluded.common.world.generation.OreGenerator;
 import com.wurmcraft.minecraftnotincluded.common.world.overworld.biome.MNIBiomeSource;
 import com.wurmcraft.minecraftnotincluded.common.world.overworld.biome.ModdedBiomeProvider;
@@ -11,9 +13,13 @@ import io.github.opencubicchunks.cubicchunks.core.CubicChunks;
 import io.github.opencubicchunks.cubicchunks.cubicgen.BasicCubeGenerator;
 import io.github.opencubicchunks.cubicchunks.cubicgen.common.biome.BiomeBlockReplacerConfig;
 import io.github.opencubicchunks.cubicchunks.cubicgen.common.biome.CubicBiome;
-import io.github.opencubicchunks.cubicchunks.cubicgen.customcubic.CustomGeneratorSettings;
+import net.minecraft.init.Biomes;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeProvider;
+import net.minecraft.world.gen.feature.WorldGenBigMushroom;
+import net.minecraft.world.gen.feature.WorldGenTrees;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class MNIOverworldGenerator extends BasicCubeGenerator {
@@ -35,11 +41,13 @@ public class MNIOverworldGenerator extends BasicCubeGenerator {
             world,
             new ModdedBiomeProvider(
                 ModdedBiomeProvider.getGeneratorSettings(
-                    world, "{\n" + "  \"biomeSize\": 7,\n" + "  \"riverSize\": 0\n" + "}")));
+                    world,
+                    "{\n" + "  \"biomeSize\": 7,\n" + "  \"riverSize\": 0\n" + "}")));
     terrainBuilder = new OverworldTerrainBuilder(world);
     oreGenerator = new OreGenerator(world);
     // Update Build Height
-    FMLCommonHandler.instance().getMinecraftServerInstance().setBuildLimit(CubicChunks.MAX_BLOCK_Y);
+    FMLCommonHandler.instance().getMinecraftServerInstance()
+        .setBuildLimit(CubicChunks.MAX_SUPPORTED_BLOCK_Y);
   }
 
   @Override
@@ -60,19 +68,19 @@ public class MNIOverworldGenerator extends BasicCubeGenerator {
     }
   }
 
+  WorldGenTrees trees = new WorldGenTrees(true, 4, Blocks.LOG.getDefaultState(),
+      Blocks.LEAVES.getDefaultState(), true);
+
   @Override
   public void populate(ICube cube) {
     terrainBuilder.applyBiomeFilter(cube.getWorld(), cube);
     CubicBiome cubicBiome =
         CubicBiome.getCubic(cube.getWorld().getBiome(Coords.getCubeCenter(cube)));
-
-    // Apply Decorator's
-    cubicBiome
-        .getDecorator(new CustomGeneratorSettings())
-        .generate(world, world.rand, cube.getCoords(), cubicBiome.getBiome());
-    CubeGeneratorsRegistry.generateWorld(
-        cube.getWorld(), cube.getWorld().rand, cube.getCoords(), cubicBiome.getBiome());
     terrainBuilder.addLighting(cubicBiome, cube);
+    for (int index = 0; index < 3; index++) {
+      trees.generate(world, world.rand, cube.getCoords().getCenterBlockPos()
+          .add(world.rand.nextInt(8), world.rand.nextInt(8), world.rand.nextInt(8)));
+    }
     oreGenerator.generate(world, world.rand, cube.getCoords(), cubicBiome.getBiome());
   }
 }

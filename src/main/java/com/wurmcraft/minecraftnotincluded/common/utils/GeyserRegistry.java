@@ -56,7 +56,7 @@ public class GeyserRegistry {
         new File(
             GEYSER_DIR
                 + File.separator
-                + geyser.getBlock().getBlock().getRegistryName().getPath()
+                + geyser.getBlock().getBlock().getRegistryName().getResourcePath()
                 + ".json");
     if (!geyserFile.getParentFile().exists()) {
       geyserFile.getParentFile().mkdirs();

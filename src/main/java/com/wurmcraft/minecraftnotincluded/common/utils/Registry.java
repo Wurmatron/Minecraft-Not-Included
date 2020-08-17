@@ -20,13 +20,11 @@ public class Registry {
 
   public static void registerItem(Item item, String registryName) {
     item.setRegistryName(registryName);
-    item.setTranslationKey(registryName);
     items.add(item);
   }
 
   public static Block registerBlock(Block block, String registryName) {
     block.setRegistryName(registryName);
-    block.setTranslationKey(registryName);
     ItemBlock itemBlock = new ItemBlock(block);
     itemBlock.setRegistryName(registryName);
     blocks.add(block);
@@ -39,16 +37,13 @@ public class Registry {
       return registerBlock(block, registryName);
     }
     block.setRegistryName(registryName);
-    block.setTranslationKey(registryName);
     blocks.add(block);
     return block;
   }
 
   public static Block registerBlock(Block block, String registryName, ItemBlock itemBlock) {
     block.setRegistryName(registryName);
-    block.setTranslationKey(registryName);
     itemBlock.setRegistryName(registryName);
-    itemBlock.setTranslationKey(registryName);
     blocks.add(block);
     blockItems.put(block, itemBlock);
     return block;

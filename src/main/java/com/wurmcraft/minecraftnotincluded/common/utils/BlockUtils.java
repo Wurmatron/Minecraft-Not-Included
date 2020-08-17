@@ -61,9 +61,9 @@ public class BlockUtils {
   }
 
   public static String stateToString(IBlockState state) {
-    return state.getBlock().getRegistryName().getNamespace()
+    return state.getBlock().getRegistryName().getResourceDomain()
         + ":"
-        + state.getBlock().getRegistryName().getPath()
+        + state.getBlock().getRegistryName().getResourcePath()
         + ":"
         + state.getBlock().getMetaFromState(state);
   }

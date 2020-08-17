@@ -33,7 +33,7 @@ public class MNIBiomeSource {
     int currentIndex = 0;
     for (Biome biome : ForgeRegistries.BIOMES.getValuesCollection()) {
       for (String enabledBiomes : Biomes.enabledBiomes) {
-        if (biome.getRegistryName().getPath().equalsIgnoreCase(enabledBiomes)) {
+        if (biome.getRegistryName().getResourcePath().equalsIgnoreCase(enabledBiomes)) {
           validBiomes.add(biome);
           BIOME_INDEX_CACHE.put(biome, currentIndex);
           BIOME_LOOKUP_CACHE.put(currentIndex, biome);

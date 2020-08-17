@@ -33,7 +33,7 @@ public class ItemBlockGeyser extends ItemBlock {
     GeyserData data = GeyserRegistry.getDataFromID(shift + stack.getItemDamage());
     if (data != null) {
       return I18n.translateToLocal(
-          "tile.geyser" + data.getBlock().getBlock().getRegistryName().getPath() + ".name");
+          "tile.geyser" + data.getBlock().getBlock().getRegistryName().getResourcePath() + ".name");
     } else return "tile.null.name";
   }
 

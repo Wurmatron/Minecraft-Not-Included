@@ -3,8 +3,8 @@ package com.wurmcraft.minecraftnotincluded.common.block;
 import com.wurmcraft.minecraftnotincluded.api.GeyserData;
 import com.wurmcraft.minecraftnotincluded.common.block.farm.BlockFarmTile;
 import com.wurmcraft.minecraftnotincluded.common.block.farm.BlockHydroponicsTile;
-import com.wurmcraft.minecraftnotincluded.common.block.farm.t1.BlockT1Controller;
-import com.wurmcraft.minecraftnotincluded.common.block.farm.t1.BlockT1Storage;
+import com.wurmcraft.minecraftnotincluded.common.block.farm.t1.BlockCasing;
+import com.wurmcraft.minecraftnotincluded.common.block.farm.t1.BlockController;
 import com.wurmcraft.minecraftnotincluded.common.block.generation.BlockLargeVine;
 import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingCrystal;
 import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingCrystalHanging;
@@ -19,10 +19,10 @@ import com.wurmcraft.minecraftnotincluded.common.item.block.ItemGlowingCrystal;
 import com.wurmcraft.minecraftnotincluded.common.item.block.ItemGlowingFlower;
 import com.wurmcraft.minecraftnotincluded.common.item.block.ItemGlowingMushroom;
 import com.wurmcraft.minecraftnotincluded.common.references.Global;
+import com.wurmcraft.minecraftnotincluded.common.tile.TileControllerT1;
+import com.wurmcraft.minecraftnotincluded.common.tile.TileEntityCasing;
 import com.wurmcraft.minecraftnotincluded.common.tile.TileEntityFarm;
 import com.wurmcraft.minecraftnotincluded.common.tile.TileEntityHydroponics;
-import com.wurmcraft.minecraftnotincluded.common.tile.utils.TileEntityController;
-import com.wurmcraft.minecraftnotincluded.common.tile.utils.TileEntitySlave;
 import com.wurmcraft.minecraftnotincluded.common.utils.GeyserRegistry;
 import com.wurmcraft.minecraftnotincluded.common.utils.Registry;
 import java.util.*;
@@ -53,8 +53,8 @@ public class MinecraftNotIncludedBlocks {
   // Farm
   public static BlockFarmTile farmTile;
   public static BlockHydroponicsTile hydroponicsTile;
-  public static BlockT1Controller controllerT1;
-  public static BlockT1Storage storageT1;
+  public static BlockController controllerT1;
+  public static BlockCasing casingT1;
 
   public static void register() {
     // Geyser
@@ -102,11 +102,11 @@ public class MinecraftNotIncludedBlocks {
     GameRegistry.registerTileEntity(
         TileEntityHydroponics.class, new ResourceLocation(Global.MODID, "hydroponicsTile"));
 
-    Registry.registerBlock(controllerT1 = new BlockT1Controller(), "farmControllerT1");
-    GameRegistry.registerTileEntity(TileEntityController.class, "controller");
+    Registry.registerBlock(controllerT1 = new BlockController(), "farmControllerT1");
+    GameRegistry.registerTileEntity(TileControllerT1.class, "controller");
 
-    Registry.registerBlock(storageT1 = new BlockT1Storage(), "storageT1");
-    GameRegistry.registerTileEntity(TileEntitySlave.class, "slave");
+    Registry.registerBlock(casingT1 = new BlockCasing(), "casingT1");
+    GameRegistry.registerTileEntity(TileEntityCasing.class, "casing");
   }
 
   public static IBlockState getGeyser(GeyserData data) {

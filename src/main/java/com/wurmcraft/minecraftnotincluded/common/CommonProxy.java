@@ -20,7 +20,7 @@ public class CommonProxy {
 
   public IThreadListener getThreadListener(MessageContext context) {
     if (context.side.isServer()) {
-      return context.getServerHandler().player.server;
+      return context.getServerHandler().player.getServer();
     }
     return null;
   }

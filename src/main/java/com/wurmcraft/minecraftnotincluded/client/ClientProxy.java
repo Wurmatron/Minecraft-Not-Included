@@ -112,8 +112,7 @@ public class ClientProxy extends CommonProxy {
                   + GeyserRegistry.getDataFromID((shift * 16) + index)
                       .getBlock()
                       .getBlock()
-                      .getRegistryName()
-                      .getPath());
+                      .getRegistryName().getResourcePath());
         }
       }
       shift++;

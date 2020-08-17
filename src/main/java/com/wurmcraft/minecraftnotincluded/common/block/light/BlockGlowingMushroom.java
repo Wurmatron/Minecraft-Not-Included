@@ -1,7 +1,7 @@
 package com.wurmcraft.minecraftnotincluded.common.block.light;
 
-import io.github.opencubicchunks.cubicchunks.cubicgen.blue.endless.jankson.annotation.Nullable;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockMushroom;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -49,7 +49,6 @@ public class BlockGlowingMushroom extends Block {
     return MUSHROOM_AABB;
   }
 
-  @Nullable
   public AxisAlignedBB getCollisionBoundingBox(
       IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
     return NULL_AABB;
@@ -84,7 +83,8 @@ public class BlockGlowingMushroom extends Block {
   }
 
   @SideOnly(Side.CLIENT)
-  public BlockRenderLayer getRenderLayer() {
+  public BlockRenderLayer getBlockLayer()
+  {
     return BlockRenderLayer.CUTOUT;
   }
 

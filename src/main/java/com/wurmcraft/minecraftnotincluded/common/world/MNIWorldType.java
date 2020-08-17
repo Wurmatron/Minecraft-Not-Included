@@ -44,7 +44,7 @@ public class MNIWorldType extends WorldType implements ICubicWorldType {
   @Override
   public float getCloudHeight() {
     if (!Wasteland.enabled) {
-      return CubicChunks.MAX_BLOCK_Y;
+      return CubicChunks.MAX_SUPPORTED_BLOCK_Y;
     }
     return super.getCloudHeight();
   }
