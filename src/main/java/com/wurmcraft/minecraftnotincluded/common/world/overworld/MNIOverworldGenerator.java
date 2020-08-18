@@ -62,14 +62,14 @@ public class MNIOverworldGenerator extends BasicCubeGenerator {
     for (int x = 0; x < 4; x++) {
       for (int y = 0; y < 4; y++) {
         for (int z = 0; z < 4; z++) {
-          cp.setBiome(x, y, z, biomeSource.getBiome(cubeX, cubeY, cubeZ));
+          cp.setBiome(x, y, z, BiomeRegistry.swamp);
         }
       }
     }
   }
 
-  WorldGenTrees trees = new WorldGenTrees(true, 4, Blocks.LOG.getDefaultState(),
-      Blocks.LEAVES.getDefaultState(), true);
+//  WorldGenTrees trees = new WorldGenTrees(true, 4, Blocks.LOG.getDefaultState(),
+//      Blocks.LEAVES.getDefaultState(), true);
 
   @Override
   public void populate(ICube cube) {
@@ -77,10 +77,11 @@ public class MNIOverworldGenerator extends BasicCubeGenerator {
     CubicBiome cubicBiome =
         CubicBiome.getCubic(cube.getWorld().getBiome(Coords.getCubeCenter(cube)));
     terrainBuilder.addLighting(cubicBiome, cube);
-    for (int index = 0; index < 3; index++) {
-      trees.generate(world, world.rand, cube.getCoords().getCenterBlockPos()
-          .add(world.rand.nextInt(8), world.rand.nextInt(8), world.rand.nextInt(8)));
-    }
+    cubicBiome.getBiome().decorate(cube.getWorld(),cube.getWorld().rand,cube.getCoords().getCenterBlockPos());
+//    for (int index = 0; index < 3; index++) {
+//      trees.generate(world, world.rand, cube.getCoords().getCenterBlockPos()
+//          .add(world.rand.nextInt(8), world.rand.nextInt(8), world.rand.nextInt(8)));
+//    }
     oreGenerator.generate(world, world.rand, cube.getCoords(), cubicBiome.getBiome());
   }
 }

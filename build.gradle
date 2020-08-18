@@ -16,9 +16,13 @@ plugins {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 
-version = '0.0.X'
-group = 'io.wurmatron.minecraftnotincluded'
-archivesBaseName = 'Minecraft Not Included'
+String build_number = System.getenv().BUILD_NUMBER
+if (build_number == null) {
+    build_number = "0.CustomBuild"
+} else {
+    build_number = "Jenkins-${build_number}"
+}
+version = "${mod_version}.${build_number}"
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 

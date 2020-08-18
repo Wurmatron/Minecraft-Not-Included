@@ -50,8 +50,11 @@ public class BiomeRegistry {
     return getBiome(DEFAULT_BIOME_ID);
   }
 
+  public static final MNISwampBiome swamp = new MNISwampBiome();
+
   @SubscribeEvent
   public void registerBiome(RegistryEvent.Register<Biome> e) {
+    e.getRegistry().register(swamp);
     wasteland =
         new Biome(
             new BiomeProperties("Wasteland")
@@ -76,7 +79,6 @@ public class BiomeRegistry {
                 net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(
                     new net.minecraftforge.event.terraingen.DecorateBiomeEvent.Pre(
                         worldIn, random, forgeChunkPos));
-                this.generateOres(worldIn, random);
 
                 if (net.minecraftforge.event.terraingen.TerrainGen.decorate(
                     worldIn,
