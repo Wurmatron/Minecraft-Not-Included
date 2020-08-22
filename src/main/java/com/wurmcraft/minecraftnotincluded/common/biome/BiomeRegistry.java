@@ -51,10 +51,12 @@ public class BiomeRegistry {
   }
 
   public static final MNISwampBiome swamp = new MNISwampBiome();
+  public static final MNIForestBiome forest = new MNIForestBiome();
 
   @SubscribeEvent
   public void registerBiome(RegistryEvent.Register<Biome> e) {
     e.getRegistry().register(swamp);
+    e.getRegistry().register(forest);
     wasteland =
         new Biome(
             new BiomeProperties("Wasteland")

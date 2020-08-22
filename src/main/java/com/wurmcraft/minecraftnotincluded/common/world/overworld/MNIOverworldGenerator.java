@@ -62,7 +62,7 @@ public class MNIOverworldGenerator extends BasicCubeGenerator {
     for (int x = 0; x < 4; x++) {
       for (int y = 0; y < 4; y++) {
         for (int z = 0; z < 4; z++) {
-          cp.setBiome(x, y, z, BiomeRegistry.swamp);
+          cp.setBiome(x, y, z, BiomeRegistry.forest);
         }
       }
     }
@@ -76,12 +76,8 @@ public class MNIOverworldGenerator extends BasicCubeGenerator {
     terrainBuilder.applyBiomeFilter(cube.getWorld(), cube);
     CubicBiome cubicBiome =
         CubicBiome.getCubic(cube.getWorld().getBiome(Coords.getCubeCenter(cube)));
-    terrainBuilder.addLighting(cubicBiome, cube);
     cubicBiome.getBiome().decorate(cube.getWorld(),cube.getWorld().rand,cube.getCoords().getCenterBlockPos());
-//    for (int index = 0; index < 3; index++) {
-//      trees.generate(world, world.rand, cube.getCoords().getCenterBlockPos()
-//          .add(world.rand.nextInt(8), world.rand.nextInt(8), world.rand.nextInt(8)));
-//    }
+    terrainBuilder.addLighting(cubicBiome, cube);
     oreGenerator.generate(world, world.rand, cube.getCoords(), cubicBiome.getBiome());
   }
 }

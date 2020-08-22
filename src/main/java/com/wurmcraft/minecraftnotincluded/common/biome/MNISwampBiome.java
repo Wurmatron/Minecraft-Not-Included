@@ -1,5 +1,7 @@
 package com.wurmcraft.minecraftnotincluded.common.biome;
 
+import static com.wurmcraft.minecraftnotincluded.common.biome.BiomeUtils.spreadFeatures;
+
 import com.wurmcraft.minecraftnotincluded.common.biome.feature.WorldGenLargeMushroom;
 import com.wurmcraft.minecraftnotincluded.common.biome.feature.WorldGenTree;
 import java.awt.Color;
@@ -74,35 +76,4 @@ public class MNISwampBiome extends Biome {
     };
     return decor;
   }
-
-  private BlockPos[] spreadFeatures(World world, BlockPos pos, int maxAmount,
-      int distance) {
-    List<BlockPos> features = new ArrayList<>();
-    features.add(pos.add(world.rand.nextInt(8), 0, world.rand.nextInt(8)));
-    for (int f = 0; f < maxAmount; f++) {
-      BlockPos newPos = pos.add(world.rand.nextInt(8), 0, world.rand.nextInt(8));
-      if (!isNear(features, newPos, distance)) {
-        features.add(newPos);
-      }
-      if (world.rand.nextInt(maxAmount) > 0) {
-        break;
-      }
-    }
-
-    return features.toArray(new BlockPos[0]);
-  }
-
-  private boolean isNear(List<BlockPos> current, BlockPos pos, int distance) {
-    for (BlockPos p : current) {
-      if (p.getX() + distance < pos.getX() && pos.getX() - distance > pos.getX()) {
-        return false;
-      }
-      if (p.getZ() + distance < pos.getZ() && pos.getZ() - distance > pos.getZ()) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-
 }
