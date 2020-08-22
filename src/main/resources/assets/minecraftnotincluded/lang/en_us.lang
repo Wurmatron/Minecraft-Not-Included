@@ -36,6 +36,8 @@ tile.dust.name=Dust Block
 tile.compressedDust.name=Compressed Dust Block
 tile.farmTile.name=Farm Tile
 tile.hydroponicsTile.name=Hydroponics Farm
+tile.casingT1.name==Casing T1
+tile.farmControllerT1.name=Farm Controller T1
 
 # Gui
 stat.soil.name=Soil

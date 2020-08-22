@@ -61,7 +61,8 @@ public class MinecraftNotIncludedBlocks {
     int currentGeysers = GeyserRegistry.getCount();
     if (currentGeysers < 16) {
       GeyserBlock geyserBlock = new GeyserBlock(0);
-      Registry.registerBlock(geyserBlock, "geyser_0", new ItemBlockGeyser(geyserBlock, 0));
+      Registry
+          .registerBlock(geyserBlock, "geyser_0", new ItemBlockGeyser(geyserBlock, 0));
       geysers.add(geyserBlock);
     } else {
       for (int blocks = 0; blocks > (currentGeysers / 16); blocks++) {
@@ -72,8 +73,11 @@ public class MinecraftNotIncludedBlocks {
       }
     }
     // Surface
-    Registry.registerBlock(blockDust = new BasicBlock(Material.SAND), "dust");
-    Registry.registerBlock(blockCompressedDust = new BasicBlock(Material.SAND), "compressedDust");
+    Registry.registerBlock(
+        blockDust = new BasicBlock(Material.SAND).setUnlocalizedName("dust"), "dust");
+    Registry.registerBlock(blockCompressedDust = new BasicBlock(Material.SAND)
+            .setUnlocalizedName("compressedDust"),
+        "compressedDust");
     // Underground plants
     Registry.registerBlock(
         glowingMushroom = new BlockGlowingMushroom(),
@@ -91,21 +95,31 @@ public class MinecraftNotIncludedBlocks {
         "glowingCrystal",
         new ItemGlowingCrystal(glowingCrystal));
     Registry.registerBlock(
-        glowingCrystalHanging = new BlockGlowingCrystalHanging(), "glowingCrystalHanging", true);
-    Registry.registerBlock(glowingVines = new BlockGlowingVines(), "glowingVines");
+        glowingCrystalHanging = new BlockGlowingCrystalHanging(), "glowingCrystalHanging",
+        true);
+    Registry.registerBlock(glowingVines = (BlockGlowingVines) new BlockGlowingVines()
+        .setUnlocalizedName("glowingVines"), "glowingVines");
     Registry.registerBlock(largeVine = new BlockLargeVine(), "largeVine", true);
     // Farming
-    Registry.registerBlock(farmTile = new BlockFarmTile(), "farmTile", new ItemFarmTile(farmTile));
+    Registry.registerBlock(
+        farmTile = (BlockFarmTile) new BlockFarmTile().setUnlocalizedName("farmTile"),
+        "farmTile", new ItemFarmTile(farmTile));
     GameRegistry.registerTileEntity(
         TileEntityFarm.class, new ResourceLocation(Global.MODID, "farmTile"));
-    Registry.registerBlock(hydroponicsTile = new BlockHydroponicsTile(), "hydroponicsTile");
+    Registry.registerBlock(
+        hydroponicsTile = (BlockHydroponicsTile) new BlockHydroponicsTile()
+            .setUnlocalizedName("hydroponicsTile"), "hydroponicsTile");
     GameRegistry.registerTileEntity(
-        TileEntityHydroponics.class, new ResourceLocation(Global.MODID, "hydroponicsTile"));
 
-    Registry.registerBlock(controllerT1 = new BlockController(), "farmControllerT1");
+        TileEntityHydroponics.class,
+        new ResourceLocation(Global.MODID, "hydroponicsTile"));
+
+    Registry.registerBlock(controllerT1 = (BlockController) new BlockController()
+        .setUnlocalizedName("farmControllerT1"), "farmControllerT1");
     GameRegistry.registerTileEntity(TileControllerT1.class, "controller");
-
-    Registry.registerBlock(casingT1 = new BlockCasing(), "casingT1");
+    Registry.registerBlock(
+        casingT1 = (BlockCasing) new BlockCasing().setUnlocalizedName("casingT1"),
+        "casingT1");
     GameRegistry.registerTileEntity(TileEntityCasing.class, "casing");
   }
 
