@@ -1,25 +1,18 @@
 package com.wurmcraft.minecraftnotincluded.common.world.overworld;
 
-import com.wurmcraft.minecraftnotincluded.common.ConfigHandler.Wasteland;
 import com.wurmcraft.minecraftnotincluded.common.biome.BiomeRegistry;
 import com.wurmcraft.minecraftnotincluded.common.world.generation.OreGenerator;
 import com.wurmcraft.minecraftnotincluded.common.world.overworld.biome.MNIBiomeSource;
 import com.wurmcraft.minecraftnotincluded.common.world.overworld.biome.ModdedBiomeProvider;
 import io.github.opencubicchunks.cubicchunks.api.util.Coords;
 import io.github.opencubicchunks.cubicchunks.api.world.ICube;
-import io.github.opencubicchunks.cubicchunks.api.worldgen.CubeGeneratorsRegistry;
 import io.github.opencubicchunks.cubicchunks.api.worldgen.CubePrimer;
 import io.github.opencubicchunks.cubicchunks.core.CubicChunks;
 import io.github.opencubicchunks.cubicchunks.cubicgen.BasicCubeGenerator;
 import io.github.opencubicchunks.cubicchunks.cubicgen.common.biome.BiomeBlockReplacerConfig;
 import io.github.opencubicchunks.cubicchunks.cubicgen.common.biome.CubicBiome;
-import net.minecraft.init.Biomes;
-import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeProvider;
-import net.minecraft.world.gen.feature.WorldGenBigMushroom;
-import net.minecraft.world.gen.feature.WorldGenTrees;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class MNIOverworldGenerator extends BasicCubeGenerator {
@@ -68,15 +61,13 @@ public class MNIOverworldGenerator extends BasicCubeGenerator {
     }
   }
 
-//  WorldGenTrees trees = new WorldGenTrees(true, 4, Blocks.LOG.getDefaultState(),
-//      Blocks.LEAVES.getDefaultState(), true);
-
   @Override
   public void populate(ICube cube) {
     terrainBuilder.applyBiomeFilter(cube.getWorld(), cube);
     CubicBiome cubicBiome =
         CubicBiome.getCubic(cube.getWorld().getBiome(Coords.getCubeCenter(cube)));
-    cubicBiome.getBiome().decorate(cube.getWorld(),cube.getWorld().rand,cube.getCoords().getCenterBlockPos());
+    cubicBiome.getBiome().decorate(cube.getWorld(), cube.getWorld().rand,
+        cube.getCoords().getCenterBlockPos());
     terrainBuilder.addLighting(cubicBiome, cube);
     oreGenerator.generate(world, world.rand, cube.getCoords(), cubicBiome.getBiome());
   }

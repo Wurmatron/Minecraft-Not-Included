@@ -3,10 +3,12 @@ package com.wurmcraft.minecraftnotincluded.common.world.overworld;
 import static com.wurmcraft.minecraftnotincluded.common.world.overworld.cavern.TerrainGeneratorUtils.addFillerMaterial;
 
 import com.wurmcraft.minecraftnotincluded.common.ConfigHandler.Wasteland;
+import com.wurmcraft.minecraftnotincluded.common.biome.BiomeRegistry;
 import com.wurmcraft.minecraftnotincluded.common.block.MinecraftNotIncludedBlocks;
 import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingCrystal;
 import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingCrystal.Type;
 import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingDoublePlant.EnumPlantType;
+import com.wurmcraft.minecraftnotincluded.common.block.light.BlockGlowingFlower;
 import com.wurmcraft.minecraftnotincluded.common.world.overworld.cavern.CavernGenerator;
 import io.github.opencubicchunks.cubicchunks.api.util.CubePos;
 import io.github.opencubicchunks.cubicchunks.api.world.ICube;
@@ -126,6 +128,13 @@ public class OverworldTerrainBuilder {
   }
 
   private void addMushroom(CubicBiome biome, BlockPos pos) {
+    if(biome.getBiome() == BiomeRegistry.forest) {
+      world.setBlockState(
+          pos,
+          MinecraftNotIncludedBlocks.glowingFlower.getStateFromMeta(world.rand.nextInt(BlockGlowingFlower.TYPE.getAllowedValues().size())),
+          3);
+      return;
+    }
     world.setBlockState(
         pos,
         MinecraftNotIncludedBlocks.glowingMushroom.getMushroomForBiome(world, biome.getBiome()),
