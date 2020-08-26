@@ -53,12 +53,15 @@ public class BiomeRegistry {
   public static final MNISwampBiome swamp = new MNISwampBiome();
   public static final MNIForestBiome forest = new MNIForestBiome();
   public static final MNIMushroomForestBiome mushroomForest = new MNIMushroomForestBiome();
+  public static final MNIBarronBiome barron = new MNIBarronBiome();
+
 
   @SubscribeEvent
   public void registerBiome(RegistryEvent.Register<Biome> e) {
     e.getRegistry().register(swamp);
     e.getRegistry().register(forest);
     e.getRegistry().register(mushroomForest);
+    e.getRegistry().register(barron);
     wasteland =
         new Biome(
             new BiomeProperties("Wasteland")
