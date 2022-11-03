@@ -6,12 +6,21 @@ import net.minecraft.world.World;
 
 public class BiomeUtils {
 
-  public static BlockPos[] spreadFeatures(World world, BlockPos pos, int maxAmount,
-      int distance) {
+  public static BlockPos[] spreadFeatures(World world, BlockPos pos, int maxAmount, int distance) {
     List<BlockPos> features = new ArrayList<>();
     features.add(pos.add(world.rand.nextInt(16), 0, world.rand.nextInt(16)));
     for (int f = 0; f < maxAmount; f++) {
-      BlockPos newPos = pos.add(world.rand.nextInt(4) + world.rand.nextInt(4) + world.rand.nextInt(4) +world.rand.nextInt(4) , 0, world.rand.nextInt(4) +world.rand.nextInt(4) +world.rand.nextInt(4) +world.rand.nextInt(4) );
+      BlockPos newPos =
+          pos.add(
+              world.rand.nextInt(4)
+                  + world.rand.nextInt(4)
+                  + world.rand.nextInt(4)
+                  + world.rand.nextInt(4),
+              0,
+              world.rand.nextInt(4)
+                  + world.rand.nextInt(4)
+                  + world.rand.nextInt(4)
+                  + world.rand.nextInt(4));
       if (!isNear(features, newPos, distance)) {
         features.add(newPos);
       }

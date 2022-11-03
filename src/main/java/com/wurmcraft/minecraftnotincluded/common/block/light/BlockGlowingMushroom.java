@@ -1,7 +1,6 @@
 package com.wurmcraft.minecraftnotincluded.common.block.light;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockMushroom;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -83,8 +82,7 @@ public class BlockGlowingMushroom extends Block {
   }
 
   @SideOnly(Side.CLIENT)
-  public BlockRenderLayer getBlockLayer()
-  {
+  public BlockRenderLayer getBlockLayer() {
     return BlockRenderLayer.CUTOUT;
   }
 

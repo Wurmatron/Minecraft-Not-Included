@@ -81,7 +81,7 @@ public class CavernGenerator implements ICubicStructureGenerator {
       world.setSpawnPoint(pos);
       spawnSet = true;
     }
-    //very low probability of generating high number
+    // very low probability of generating high number
     int nodes = rand.nextInt(rand.nextInt(rand.nextInt(MAX_INIT_NODES + 1) + 1) + 1);
 
     for (int node = 0; node < nodes; ++node) {
@@ -196,7 +196,7 @@ public class CavernGenerator implements ICubicStructureGenerator {
       double vertCaveSizeMod) {
     Random rand = new Random(seed);
 
-    //store by how much the horizontal and vertical direction angles will change each step
+    // store by how much the horizontal and vertical direction angles will change each step
     float horizDirChange = 0.0F;
     float vertDirChange = 0.0F;
 
@@ -205,13 +205,13 @@ public class CavernGenerator implements ICubicStructureGenerator {
       maxWalkedDistance = maxBlockRadius - rand.nextInt(maxBlockRadius / 4);
     }
 
-    //if true - this branch won't generate new sub-branches
+    // if true - this branch won't generate new sub-branches
     boolean finalStep = false;
 
     int walkedDistance;
     if (startWalkedDistance == -1) {
-      //generate a cave "room"
-      //start at half distance towards the end = max cave size
+      // generate a cave "room"
+      // start at half distance towards the end = max cave size
       walkedDistance = maxWalkedDistance / 2;
       finalStep = true;
     } else {
@@ -222,21 +222,21 @@ public class CavernGenerator implements ICubicStructureGenerator {
 
     for (; walkedDistance < maxWalkedDistance; ++walkedDistance) {
       float fractionWalked = walkedDistance / (float) maxWalkedDistance;
-      //horizontal and vertical size of the cave
-      //size starts small and increases, then decreases as cave goes further
+      // horizontal and vertical size of the cave
+      // size starts small and increases, then decreases as cave goes further
       double caveSizeHoriz = CAVE_SIZE_ADD + sin(fractionWalked * (float) Math.PI) * baseCaveSize;
       double caveSizeVert = caveSizeHoriz * vertCaveSizeMod;
 
-      //Walk forward a single step:
+      // Walk forward a single step:
 
-      //from sin(alpha)=y/r and cos(alpha)=x/r ==> x = r*cos(alpha) and y = r*sin(alpha)
-      //always moves by one block in some direction
+      // from sin(alpha)=y/r and cos(alpha)=x/r ==> x = r*cos(alpha) and y = r*sin(alpha)
+      // always moves by one block in some direction
 
-      //here x is xzDirectionFactor, y is yDirectionFactor
+      // here x is xzDirectionFactor, y is yDirectionFactor
       float xzDirectionFactor = cos(vertDirAngle);
       float yDirectionFactor = sin(vertDirAngle);
 
-      //here y is directionZ and x is directionX
+      // here y is directionZ and x is directionX
       caveX += cos(horizDirAngle) * xzDirectionFactor;
       caveY += yDirectionFactor;
       caveZ += sin(horizDirAngle) * xzDirectionFactor;
@@ -247,10 +247,10 @@ public class CavernGenerator implements ICubicStructureGenerator {
         vertDirAngle *= FLATTEN_FACTOR;
       }
 
-      //change the direction
+      // change the direction
       vertDirAngle += vertDirChange * DIRECTION_CHANGE_FACTOR;
       horizDirAngle += horizDirChange * DIRECTION_CHANGE_FACTOR;
-      //update direction change angles
+      // update direction change angles
       vertDirChange *= PREV_VERT_DIRECTION_CHANGE_WEIGHT;
       horizDirChange *= PREV_HORIZ_DIRECTION_CHANGE_WEIGHT;
       vertDirChange +=
@@ -258,8 +258,8 @@ public class CavernGenerator implements ICubicStructureGenerator {
       horizDirChange +=
           (rand.nextFloat() - rand.nextFloat()) * rand.nextFloat() * MAX_ADD_DIRECTION_CHANGE_HORIZ;
 
-      //if we reached split point - try to split
-      //can split only if it's not final branch and the cave is still big enough (>1 block radius)
+      // if we reached split point - try to split
+      // can split only if it's not final branch and the cave is still big enough (>1 block radius)
       if (!finalStep && walkedDistance == splitPoint && baseCaveSize > 1.0F) {
         this.generateNode(
             cube,
@@ -268,8 +268,8 @@ public class CavernGenerator implements ICubicStructureGenerator {
             caveX,
             caveY,
             caveZ,
-            rand.nextFloat() * 0.5F + 0.5F, //base cave size
-            horizDirAngle - ((float) Math.PI / 2F), //horiz. angle - subtract 90 degrees
+            rand.nextFloat() * 0.5F + 0.5F, // base cave size
+            horizDirAngle - ((float) Math.PI / 2F), // horiz. angle - subtract 90 degrees
             vertDirAngle / 3.0F,
             walkedDistance,
             maxWalkedDistance,
@@ -281,8 +281,8 @@ public class CavernGenerator implements ICubicStructureGenerator {
             caveX,
             caveY,
             caveZ,
-            rand.nextFloat() * 0.5F + 0.5F, //base cave size
-            horizDirAngle + ((float) Math.PI / 2F), //horiz. angle - add 90 degrees
+            rand.nextFloat() * 0.5F + 0.5F, // base cave size
+            horizDirAngle + ((float) Math.PI / 2F), // horiz. angle - add 90 degrees
             vertDirAngle / 3.0F,
             walkedDistance,
             maxWalkedDistance,
@@ -290,7 +290,7 @@ public class CavernGenerator implements ICubicStructureGenerator {
         return;
       }
 
-      //carve blocks only on some percentage of steps, unless this is the final branch
+      // carve blocks only on some percentage of steps, unless this is the final branch
       if (rand.nextInt(CARVE_STEP_RARITY) == 0 && !finalStep) {
         continue;
       }
@@ -299,7 +299,7 @@ public class CavernGenerator implements ICubicStructureGenerator {
       double yDist = caveY - generatedCubePos.getYCenter();
       double zDist = caveZ - generatedCubePos.getZCenter();
       double maxStepsDist = maxWalkedDistance - walkedDistance;
-      //CHANGE: multiply max(1, vertCaveSizeMod)
+      // CHANGE: multiply max(1, vertCaveSizeMod)
       double maxDistToCube = baseCaveSize * max(1, vertCaveSizeMod) + CAVE_SIZE_ADD + ICube.SIZE;
 
       if (xDist * xDist + yDist * yDist + zDist * zDist - maxStepsDist * maxStepsDist
@@ -314,7 +314,7 @@ public class CavernGenerator implements ICubicStructureGenerator {
     }
   }
 
-  //returns true if cave generation should be continued
+  // returns true if cave generation should be continued
   private void tryCarveBlocks(
       CubePrimer cube,
       CubePos generatedCubePos,
@@ -342,7 +342,7 @@ public class CavernGenerator implements ICubicStructureGenerator {
     int minLocalZ = floor(caveZ - caveSizeHoriz) - generatedCubePos.getMinBlockZ() - 1;
     int maxLocalZ = floor(caveZ + caveSizeHoriz) - generatedCubePos.getMinBlockZ() + 1;
 
-    //skip is if everything is outside of that cube
+    // skip is if everything is outside of that cube
     if (maxLocalX <= 0
         || minLocalX >= ICube.SIZE
         || maxLocalY <= 0
@@ -408,14 +408,16 @@ public class CavernGenerator implements ICubicStructureGenerator {
           }
 
           if (shouldCarveBlock(distX, distY, distZ)) {
-            // No lava generation, infinite depth. Lava will be generated differently (or not generated)
+            // No lava generation, infinite depth. Lava will be generated differently (or not
+            // generated)
             cube.setBlockState(localX, localY, localZ, Blocks.AIR.getDefaultState());
           } else if (state.getBlock() == Blocks.DIRT) {
-            //vanilla dirt-grass replacement works by scanning top-down and moving the block
-            //cubic chunks needs to be a bit more hacky about it
-            //instead of keeping track of the encountered grass block
-            //cubic chunks replaces any dirt block (it's before population, no ore-like dirt formations yet)
-            //with grass, if the block above would be deleted by this cave generator step
+            // vanilla dirt-grass replacement works by scanning top-down and moving the block
+            // cubic chunks needs to be a bit more hacky about it
+            // instead of keeping track of the encountered grass block
+            // cubic chunks replaces any dirt block (it's before population, no ore-like dirt
+            // formations yet)
+            // with grass, if the block above would be deleted by this cave generator step
             double distYAbove = normalizedDistance(generatedCubeY, localY + 1, caveY, caveSizeVert);
             if (shouldCarveBlock(distX, distYAbove, distZ)) {
               cube.setBlockState(localX, localY, localZ, Blocks.GRASS.getDefaultState());
@@ -427,7 +429,7 @@ public class CavernGenerator implements ICubicStructureGenerator {
   }
 
   private static boolean shouldCarveBlock(double distX, double distY, double distZ) {
-    //distY > CAVE_FLOOR_DEPTH --> flattened floor
+    // distY > CAVE_FLOOR_DEPTH --> flattened floor
     return distY > CAVE_FLOOR_DEPTH && distX * distX + distY * distY + distZ * distZ < 1.0D;
   }
 }

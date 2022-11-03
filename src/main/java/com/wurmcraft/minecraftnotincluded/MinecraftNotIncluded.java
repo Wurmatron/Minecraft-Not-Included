@@ -40,8 +40,7 @@ import org.apache.logging.log4j.Logger;
     modid = Global.MODID,
     name = Global.NAME,
     version = Global.VERSION,
-    dependencies = Global.DEPENDENCIES
-)
+    dependencies = Global.DEPENDENCIES)
 public class MinecraftNotIncluded {
 
   @SidedProxy(clientSide = Global.CLIENT_PROXY, serverSide = Global.COMMON_PROXY)
@@ -69,8 +68,7 @@ public class MinecraftNotIncluded {
     GeyserRegistry.loadAndSetup();
     MinecraftForge.EVENT_BUS.register(new Registry());
     MinecraftForge.EVENT_BUS.register(new BiomeRegistry());
-    GameRegistry.registerTileEntity(TileGeyzer.class,
-        new ResourceLocation(Global.MODID, "geyzer"));
+    GameRegistry.registerTileEntity(TileGeyzer.class, new ResourceLocation(Global.MODID, "geyzer"));
     MinecraftNotIncludedItems.register();
     MinecraftNotIncludedBlocks.register();
     new MNIWorldType();

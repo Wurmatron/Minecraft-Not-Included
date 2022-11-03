@@ -34,12 +34,12 @@ public class MNIOverworldGenerator extends BasicCubeGenerator {
             world,
             new ModdedBiomeProvider(
                 ModdedBiomeProvider.getGeneratorSettings(
-                    world,
-                    "{\n" + "  \"biomeSize\": 7,\n" + "  \"riverSize\": 0\n" + "}")));
+                    world, "{\n" + "  \"biomeSize\": 7,\n" + "  \"riverSize\": 0\n" + "}")));
     terrainBuilder = new OverworldTerrainBuilder(world);
     oreGenerator = new OreGenerator(world);
     // Update Build Height
-    FMLCommonHandler.instance().getMinecraftServerInstance()
+    FMLCommonHandler.instance()
+        .getMinecraftServerInstance()
         .setBuildLimit(CubicChunks.MAX_SUPPORTED_BLOCK_Y);
   }
 
@@ -66,8 +66,9 @@ public class MNIOverworldGenerator extends BasicCubeGenerator {
     terrainBuilder.applyBiomeFilter(cube.getWorld(), cube);
     CubicBiome cubicBiome =
         CubicBiome.getCubic(cube.getWorld().getBiome(Coords.getCubeCenter(cube)));
-    cubicBiome.getBiome().decorate(cube.getWorld(), cube.getWorld().rand,
-        cube.getCoords().getCenterBlockPos());
+    cubicBiome
+        .getBiome()
+        .decorate(cube.getWorld(), cube.getWorld().rand, cube.getCoords().getCenterBlockPos());
     terrainBuilder.addLighting(cubicBiome, cube);
     oreGenerator.generate(world, world.rand, cube.getCoords(), cubicBiome.getBiome());
   }

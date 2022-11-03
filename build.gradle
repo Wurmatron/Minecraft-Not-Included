@@ -10,29 +10,34 @@ buildscript {
 }
 
 plugins {
+    id "com.github.johnrengelman.shadow" version "2.0.4"
     id "com.diffplug.gradle.spotless" version "3.28.1"
 }
 
 apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'eclipse'
 
 String build_number = System.getenv().BUILD_NUMBER
 if (build_number == null) {
-    build_number = "0.CustomBuild"
+    build_number = "CustomBuild"
 } else {
     build_number = "Jenkins-${build_number}"
 }
-version = "${mod_version}.${build_number}"
+version = "${mod_version}-${build_number}"
+
+group = 'com.wurmcraft.minecraftnotincluded'
+archivesBaseName = 'Minecraft-Not-Included'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
     mappings channel: 'snapshot', version: '20171003-1.12'
     // makeObfSourceJar = false
+    // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     runs {
         client {
             workingDirectory project.file('run')
+
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
         }
@@ -45,10 +50,10 @@ minecraft {
 }
 
 repositories {
-    maven {
-        url = "https://www.cursemaven.com"
-    }
+    maven {url = "https://www.cursemaven.com"}
 }
+
+
 
 dependencies {
     // Minecraft
@@ -59,17 +64,40 @@ dependencies {
     compile files("lib/CubicWorldGen-dev.jar")
 }
 
+shadowJar.archiveName = "${archivesBaseName}-${version}.jar"
+shadowJar {
+    dependencies {
+        // Random Crap
+        exclude('dummy*')
+        exclude('ftb*')
+        // Libs
+        include(dependency("com.boundary:high-scale-lib:${highscalelib_version}"))
+    }
+}
+
+spotless {
+    java {
+        removeUnusedImports()
+        indentWithSpaces()
+        trimTrailingWhitespace()
+        googleJavaFormat()
+    }
+}
+
 jar {
     manifest {
         attributes([
-            "Specification-Title": "Minecraft-Not-Included",
-            "Specification-Vendor": "Wurmatron",
-            "Specification-Version": "1",
-            "Implementation-Title": project.name,
-            "Implementation-Version": "${mod_version}",
-            "Implementation-Vendor" :"Wurmatron",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                "Specification-Title": "minecraft-not-included",
+                "Specification-Vendor": "wurmcraft",
+                "Specification-Version": "1",
+                "Implementation-Title": project.name,
+                "Implementation-Version": "${version}",
+                "Implementation-Vendor" :"Wurmatron",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
 }
+
+jar.finalizedBy('spotlessApply')
+jar.finalizedBy('shadowJar')
 jar.finalizedBy('reobfJar')

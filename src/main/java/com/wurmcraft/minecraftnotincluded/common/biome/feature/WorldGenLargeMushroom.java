@@ -1,8 +1,6 @@
 package com.wurmcraft.minecraftnotincluded.common.biome.feature;
 
 import java.util.Random;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockGrass;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -15,15 +13,14 @@ public class WorldGenLargeMushroom extends WorldGenerator {
   public IBlockState mushroomBlock;
   public IBlockState stemBlock;
 
-  public WorldGenLargeMushroom(IBlockState mushroomBlock,
-      IBlockState stemBlock) {
+  public WorldGenLargeMushroom(IBlockState mushroomBlock, IBlockState stemBlock) {
     this.mushroomBlock = mushroomBlock;
     this.stemBlock = stemBlock;
   }
 
   @Override
   public boolean generate(World world, Random rand, BlockPos pos) {
-   return generate(world,rand, pos, DEFAULT_SIZE);
+    return generate(world, rand, pos, DEFAULT_SIZE);
   }
 
   public boolean generate(World world, Random rand, BlockPos pos, int size) {
@@ -62,8 +59,7 @@ public class WorldGenLargeMushroom extends WorldGenerator {
     return false;
   }
 
-  public void drawLine(World world, BlockPos pos, String direction, int length,
-      IBlockState state) {
+  public void drawLine(World world, BlockPos pos, String direction, int length, IBlockState state) {
     for (int x = 0; x < length; x++) {
       if (direction.equals("x")) {
         world.setBlockState(pos.add(x, 0, 0), state);
@@ -81,8 +77,7 @@ public class WorldGenLargeMushroom extends WorldGenerator {
     }
   }
 
-  public void drawHollowSquareNoCorners(World world, BlockPos pos, int size,
-      IBlockState state) {
+  public void drawHollowSquareNoCorners(World world, BlockPos pos, int size, IBlockState state) {
     drawLine(world, pos.add(0, 0, 1), "z", size, state);
     drawLine(world, pos.add(1, 0, 0), "x", size, state);
     drawLine(world, pos.add(1, 0, size + 1), "x", size, state);

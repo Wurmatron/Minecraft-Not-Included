@@ -178,7 +178,8 @@ public class OreGenerator implements ICubicPopulator {
     }
     ResourceLocation loc = new ResourceLocation(modid, block);
     for (ResourceLocation l : ForgeRegistries.BLOCKS.getKeys()) {
-      if (l.getResourceDomain().equalsIgnoreCase(modid) && l.getResourcePath().equalsIgnoreCase(block)) {
+      if (l.getResourceDomain().equalsIgnoreCase(modid)
+          && l.getResourcePath().equalsIgnoreCase(block)) {
         loc = l;
       }
     }

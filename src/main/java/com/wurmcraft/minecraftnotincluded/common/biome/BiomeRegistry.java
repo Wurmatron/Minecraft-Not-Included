@@ -55,7 +55,6 @@ public class BiomeRegistry {
   public static final MNIMushroomForestBiome mushroomForest = new MNIMushroomForestBiome();
   public static final MNIBarronBiome barron = new MNIBarronBiome();
 
-
   @SubscribeEvent
   public void registerBiome(RegistryEvent.Register<Biome> e) {
     e.getRegistry().register(swamp);
