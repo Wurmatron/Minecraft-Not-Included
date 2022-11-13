@@ -3,6 +3,7 @@ package com.wurmcraft.minecraftnotincluded.common.world.generation;
 import static com.wurmcraft.minecraftnotincluded.MinecraftNotIncluded.GSON;
 import static com.wurmcraft.minecraftnotincluded.MinecraftNotIncluded.oreConfig;
 
+import com.wurmcraft.minecraftnotincluded.MinecraftNotIncluded;
 import com.wurmcraft.minecraftnotincluded.common.references.json.OreConfig;
 import com.wurmcraft.minecraftnotincluded.common.references.json.OreConfig.OreGeneration;
 import com.wurmcraft.minecraftnotincluded.common.utils.BlockUtils;
@@ -12,6 +13,8 @@ import io.github.opencubicchunks.cubicchunks.api.worldgen.populator.ICubicPopula
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.HashMap;
 import java.util.Random;
@@ -39,6 +42,10 @@ public class OreGenerator implements ICubicPopulator {
       try {
         oreConfig.getParentFile().mkdirs();
         oreConfig.createNewFile();
+        Files.write(
+            oreConfig.toPath(),
+            GSON.toJson(OreGenerator.config).getBytes(),
+            StandardOpenOption.WRITE);
       } catch (IOException e) {
         e.printStackTrace();
       }
@@ -117,15 +124,23 @@ public class OreGenerator implements ICubicPopulator {
               .get(currentRarity)
               .get(world.rand.nextInt(oreGeneratorRarityCache.get(currentRarity).size())));
     } else {
-      return nameCache.get(
-          oreGeneratorRarityCache
-              .get(0)
-              .get(world.rand.nextInt(oreGeneratorRarityCache.get(0).size())));
+      try {
+        return nameCache.get(
+            oreGeneratorRarityCache
+                .get(0)
+                .get(world.rand.nextInt(oreGeneratorRarityCache.get(0).size())));
+      } catch (Exception e) {
+        MinecraftNotIncluded.logger.info("Name Cache: " + nameCache.size());
+        MinecraftNotIncluded.logger.info("ore Generator: " + oreGeneratorRarityCache.size());
+        MinecraftNotIncluded.logger.warn("Error unable to find rock types");
+        return nameCache.get(oreGeneratorRarityCache.get(0).get(0));
+      }
     }
   }
 
   public static OreConfig loadOreConfig(World world, File file) {
     try {
+      MinecraftNotIncluded.logger.info("Loading ore config '" + file.getAbsolutePath());
       OreConfig config = GSON.fromJson(new FileReader(file), OreConfig.class);
       for (OreGeneration ore : config.ores) {
         if (highestRarity < ore.rarity) {
