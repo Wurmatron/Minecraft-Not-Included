@@ -17,8 +17,9 @@ import com.wurmcraft.minecraftnotincluded.common.tile.TileGeyzer;
 import com.wurmcraft.minecraftnotincluded.common.utils.FarmRegistry;
 import com.wurmcraft.minecraftnotincluded.common.utils.GeyserRegistry;
 import com.wurmcraft.minecraftnotincluded.common.utils.Registry;
-import com.wurmcraft.minecraftnotincluded.common.world.MNIWorldType;
 import java.io.File;
+
+import com.wurmcraft.minecraftnotincluded.common.world.MNIWorldType;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -105,7 +106,7 @@ public class MinecraftNotIncluded {
                 + File.separator
                 + "ore.json");
     if (ConfigHandler.replaceDefaultGenerator) {
-      MNIWorldType.replaceDefaultGenerator();
+//      MNIWorldType.replaceDefaultGenerator();
     }
     FarmRegistry.loadAndSetup();
   }
