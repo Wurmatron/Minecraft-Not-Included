@@ -30,6 +30,7 @@ public class UndergroundBiomeGenerator implements ICubeGenerator {
         this.world = world;
         caveGenerator = new InitCubicStructureGeneratorEvent(InitMapGenEvent.EventType.CAVE, new UndergroundPocketGenerator(), world).getNewGen();
         this.world.setSpawnPoint(new BlockPos(0,0,0));
+        world.setSpawnPoint(new BlockPos(0,0,0));
     }
 
     @Override
@@ -42,7 +43,6 @@ public class UndergroundBiomeGenerator implements ICubeGenerator {
         if(primer.getBlockState(0,0,0) != Blocks.STONE) {
             primer = CubePrimer.createFilled(Blocks.STONE.getDefaultState());
         }
-
         caveGenerator.generate(world, primer, new CubePos(cubeX, cubeY, cubeZ));
         return primer;
     }
